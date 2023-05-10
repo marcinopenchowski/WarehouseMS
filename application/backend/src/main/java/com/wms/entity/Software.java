@@ -17,9 +17,9 @@ public class Software {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Long id;
 
     @Basic
     @Column(name = "license_id")
-    private int licenseId;
+    private Long licenseId;
 }
