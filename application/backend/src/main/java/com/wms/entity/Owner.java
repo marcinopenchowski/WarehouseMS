@@ -17,7 +17,7 @@ public class Owner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Long id;
 
     @Basic
     @Column(name = "first_name")
@@ -29,5 +29,5 @@ public class Owner {
 
     @Basic
     @Column(name = "owner_group_id")
-    private int ownerGroupId;
+    private Long ownerGroupId;
 }
