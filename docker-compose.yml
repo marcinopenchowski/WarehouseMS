@@ -1,0 +1,9 @@
+version: '3'
+services:
+    warehousems:
+        image: warehousems:latest
+        build:
+            context: .
+            dockerfile: application/backend/Dockerfile
+        ports:
+            - "8080:8080"
