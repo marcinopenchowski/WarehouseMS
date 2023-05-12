@@ -9,10 +9,5 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 @ToString
 @Table(name = "accessory")
-public class Accessory {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+public class Accessory extends Item{
 }

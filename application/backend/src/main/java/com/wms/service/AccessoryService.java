@@ -1,7 +1,7 @@
 package com.wms.service;
 
 import com.wms.entity.Accessory;
-import com.wms.mapper.EntityMapper;
+import com.wms.mapper.AccessoryMapper;
 import com.wms.repository.AccessoryRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.util.Optional;
 public class AccessoryService {
 
     private final AccessoryRepo accessoryRepo;
-    private final EntityMapper<Accessory> entityMapper;
+    private final AccessoryMapper entityMapper;
 
     public List<Accessory> findAll() {
         return accessoryRepo.findAll();
@@ -27,10 +27,8 @@ public class AccessoryService {
 
     public Accessory update(Accessory accessory, Long id) {
         return Optional.ofNullable(findById(id))
-                .map(existedAccessory -> {
-                    entityMapper.updateEntity(accessory, existedAccessory);
-                    return accessoryRepo.save(existedAccessory);
-                })
+                .map(it -> entityMapper.updateEntity(accessory))
+                .map(accessoryRepo::save)
                 .orElse(null);
     }
 

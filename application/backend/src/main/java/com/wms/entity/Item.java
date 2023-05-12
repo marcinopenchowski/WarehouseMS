@@ -13,7 +13,8 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 @ToString
 @Table(name = "item")
-public class Item {
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,19 +45,4 @@ public class Item {
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
     @ToString.Exclude
     private Owner owner;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "software_id", referencedColumnName = "id")
-    @ToString.Exclude
-    private Software software;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "asset_id", referencedColumnName = "id")
-    @ToString.Exclude
-    private Asset asset;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "accessory_id", referencedColumnName = "id")
-    @ToString.Exclude
-    private Accessory accessory;
 }

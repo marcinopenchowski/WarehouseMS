@@ -12,12 +12,7 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 @ToString
 @Table(name = "software")
-public class Software {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+public class Software extends Item{
 
     @Basic
     @Column(name = "license_id")

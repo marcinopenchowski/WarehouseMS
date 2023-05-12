@@ -1,7 +1,7 @@
 package com.wms.service;
 
 import com.wms.entity.Category;
-import com.wms.mapper.EntityMapper;
+import com.wms.mapper.CategoryMapper;
 import com.wms.repository.CategoryRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.util.Optional;
 public class CategoryService {
 
     private final CategoryRepo categoryRepo;
-    private final EntityMapper<Category> entityMapper;
+    private final CategoryMapper entityMapper;
 
     public List<Category> findAll() {
         return categoryRepo.findAll();
@@ -27,10 +27,8 @@ public class CategoryService {
 
     public Category update(Category category, Long id) {
         return Optional.ofNullable(findById(id))
-                .map(existedCategory -> {
-                    entityMapper.updateEntity(category, existedCategory);
-                    return categoryRepo.save(existedCategory);
-                })
+                .map(it -> entityMapper.updateEntity(category))
+                .map(categoryRepo::save)
                 .orElse(null);
     }
 

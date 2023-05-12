@@ -1,7 +1,7 @@
 package com.wms.service;
 
 import com.wms.entity.OwnerGroup;
-import com.wms.mapper.EntityMapper;
+import com.wms.mapper.OwnerGroupMapper;
 import com.wms.repository.OwnerGroupRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.util.Optional;
 public class OwnerGroupService {
 
     private final OwnerGroupRepo ownerGroupRepo;
-    private final EntityMapper<OwnerGroup> entityMapper;
+    private final OwnerGroupMapper entityMapper;
 
     public List<OwnerGroup> findAll() {
         return ownerGroupRepo.findAll();
@@ -27,10 +27,8 @@ public class OwnerGroupService {
 
     public OwnerGroup update(OwnerGroup ownerGroup, Long id) {
         return Optional.ofNullable(findById(id))
-                .map(existedOwnerGroup -> {
-                    entityMapper.updateEntity(ownerGroup, existedOwnerGroup);
-                    return ownerGroupRepo.save(existedOwnerGroup);
-                })
+                .map(it -> entityMapper.updateEntity(ownerGroup))
+                .map(ownerGroupRepo::save)
                 .orElse(null);
     }
 

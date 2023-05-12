@@ -1,7 +1,7 @@
 package com.wms.service;
 
 import com.wms.entity.License;
-import com.wms.mapper.EntityMapper;
+import com.wms.mapper.LicenseMapper;
 import com.wms.repository.LicenseRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.util.Optional;
 public class LicenseService {
 
     private final LicenseRepo licenseRepo;
-    private final EntityMapper<License> entityMapper;
+    private final LicenseMapper entityMapper;
 
     public List<License> findAll() {
         return licenseRepo.findAll();
@@ -27,10 +27,8 @@ public class LicenseService {
 
     public License update(License license, Long id) {
         return Optional.ofNullable(findById(id))
-                .map(existedLicense -> {
-                    entityMapper.updateEntity(license, existedLicense);
-                    return licenseRepo.save(existedLicense);
-                })
+                .map(it -> entityMapper.updateEntity(license))
+                .map(licenseRepo::save)
                 .orElse(null);
     }
 

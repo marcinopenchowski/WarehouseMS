@@ -1,7 +1,7 @@
 package com.wms.service;
 
 import com.wms.entity.Asset;
-import com.wms.mapper.EntityMapper;
+import com.wms.mapper.AssetMapper;
 import com.wms.repository.AssetRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.util.Optional;
 public class AssetService {
 
     private final AssetRepo assetRepo;
-    private final EntityMapper<Asset> entityMapper;
+    private final AssetMapper entityMapper;
 
     public List<Asset> findAll() {
         return assetRepo.findAll();
@@ -27,10 +27,8 @@ public class AssetService {
 
     public Asset update(Asset asset, Long id) {
         return Optional.ofNullable(findById(id))
-                .map(existedAsset -> {
-                    entityMapper.updateEntity(asset, existedAsset);
-                    return assetRepo.save(existedAsset);
-                })
+                .map(it -> entityMapper.updateEntity(asset))
+                .map(assetRepo::save)
                 .orElse(null);
     }
 

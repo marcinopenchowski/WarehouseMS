@@ -25,7 +25,7 @@ public class AppConfig {
 
     @Bean
     public ResourceBundleMessageSource resourceBundleMessageSource(){
-        var source = new ResourceBundleMessageSource();
+        ResourceBundleMessageSource source = new ResourceBundleMessageSource();
         source.setBasename("classpath:message.properties");
         source.setUseCodeAsDefaultMessage(true);
 

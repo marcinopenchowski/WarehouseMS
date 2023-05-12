@@ -1,7 +1,7 @@
 package com.wms.service;
 
 import com.wms.entity.Software;
-import com.wms.mapper.EntityMapper;
+import com.wms.mapper.SoftwareMapper;
 import com.wms.repository.SoftwareRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.util.Optional;
 public class SoftwareService {
 
     private final SoftwareRepo softwareRepo;
-    private final EntityMapper<Software> entityMapper;
+    private final SoftwareMapper entityMapper;
 
     public List<Software> findAll() {
         return softwareRepo.findAll();
@@ -27,10 +27,8 @@ public class SoftwareService {
 
     public Software update(Software software, Long id) {
         return Optional.ofNullable(findById(id))
-                .map(existedSoftware -> {
-                    entityMapper.updateEntity(software, existedSoftware);
-                    return softwareRepo.save(existedSoftware);
-                })
+                .map(it -> entityMapper.updateEntity(software))
+                .map(softwareRepo::save)
                 .orElse(null);
     }
 
