@@ -12,19 +12,22 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class AccessoryService {
+public class AccessoryService implements EntityService<Accessory> {
 
     private final AccessoryRepo accessoryRepo;
     private final AccessoryMapper entityMapper;
 
+    @Override
     public List<Accessory> findAll() {
         return accessoryRepo.findAll();
     }
 
+    @Override
     public Accessory findById(Long id) {
         return accessoryRepo.findById(id).orElse(null);
     }
 
+    @Override
     public Accessory update(Accessory accessory, Long id) {
         return Optional.ofNullable(findById(id))
                 .map(it -> entityMapper.updateEntity(accessory))
@@ -32,10 +35,12 @@ public class AccessoryService {
                 .orElse(null);
     }
 
+    @Override
     public Accessory save(Accessory accessory) {
         return accessoryRepo.save(accessory);
     }
 
+    @Override
     public void deleteById(Long id) {
         accessoryRepo.deleteById(id);
     }

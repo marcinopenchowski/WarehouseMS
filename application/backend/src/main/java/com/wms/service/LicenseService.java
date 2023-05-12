@@ -12,19 +12,22 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class LicenseService {
+public class LicenseService implements EntityService<License> {
 
     private final LicenseRepo licenseRepo;
     private final LicenseMapper entityMapper;
 
+    @Override
     public List<License> findAll() {
         return licenseRepo.findAll();
     }
 
+    @Override
     public License findById(Long id) {
         return licenseRepo.findById(id).orElse(null);
     }
 
+    @Override
     public License update(License license, Long id) {
         return Optional.ofNullable(findById(id))
                 .map(it -> entityMapper.updateEntity(license))
@@ -32,10 +35,12 @@ public class LicenseService {
                 .orElse(null);
     }
 
+    @Override
     public License save(License license) {
         return licenseRepo.save(license);
     }
 
+    @Override
     public void deleteById(Long id) {
         licenseRepo.deleteById(id);
     }

@@ -12,19 +12,22 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class SoftwareService {
+public class SoftwareService implements EntityService<Software> {
 
     private final SoftwareRepo softwareRepo;
     private final SoftwareMapper entityMapper;
 
+    @Override
     public List<Software> findAll() {
         return softwareRepo.findAll();
     }
 
+    @Override
     public Software findById(Long id) {
         return softwareRepo.findById(id).orElse(null);
     }
 
+    @Override
     public Software update(Software software, Long id) {
         return Optional.ofNullable(findById(id))
                 .map(it -> entityMapper.updateEntity(software))
@@ -32,10 +35,12 @@ public class SoftwareService {
                 .orElse(null);
     }
 
+    @Override
     public Software save(Software software) {
         return softwareRepo.save(software);
     }
 
+    @Override
     public void deleteById(Long id) {
         softwareRepo.deleteById(id);
     }
