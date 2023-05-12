@@ -12,19 +12,22 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class OwnerGroupService {
+public class OwnerGroupService implements EntityService<OwnerGroup> {
 
     private final OwnerGroupRepo ownerGroupRepo;
     private final OwnerGroupMapper entityMapper;
 
+    @Override
     public List<OwnerGroup> findAll() {
         return ownerGroupRepo.findAll();
     }
 
+    @Override
     public OwnerGroup findById(Long id) {
         return ownerGroupRepo.findById(id).orElse(null);
     }
 
+    @Override
     public OwnerGroup update(OwnerGroup ownerGroup, Long id) {
         return Optional.ofNullable(findById(id))
                 .map(it -> entityMapper.updateEntity(ownerGroup))
@@ -32,10 +35,12 @@ public class OwnerGroupService {
                 .orElse(null);
     }
 
+    @Override
     public OwnerGroup save(OwnerGroup ownerGroup) {
         return ownerGroupRepo.save(ownerGroup);
     }
 
+    @Override
     public void deleteById(Long id) {
         ownerGroupRepo.deleteById(id);
     }

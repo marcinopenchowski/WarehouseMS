@@ -12,19 +12,22 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class AssetService {
+public class AssetService implements EntityService<Asset> {
 
     private final AssetRepo assetRepo;
     private final AssetMapper entityMapper;
 
+    @Override
     public List<Asset> findAll() {
         return assetRepo.findAll();
     }
 
+    @Override
     public Asset findById(Long id) {
         return assetRepo.findById(id).orElse(null);
     }
 
+    @Override
     public Asset update(Asset asset, Long id) {
         return Optional.ofNullable(findById(id))
                 .map(it -> entityMapper.updateEntity(asset))
@@ -32,10 +35,12 @@ public class AssetService {
                 .orElse(null);
     }
 
+    @Override
     public Asset save(Asset asset) {
         return assetRepo.save(asset);
     }
 
+    @Override
     public void deleteById(Long id) {
         assetRepo.deleteById(id);
     }
