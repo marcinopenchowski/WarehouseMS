@@ -1,17 +1,17 @@
 package com.wms.entity;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+
 import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
-@RequiredArgsConstructor
+@Builder
 @ToString
 @Table(name = "owner")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Owner {
 
     @Id
@@ -25,7 +25,7 @@ public class Owner {
 
     @Basic
     @Column(name = "last_name")
-    private int lastName;
+    private String lastName;
 
     @Basic
     @Column(name = "owner_group_id")

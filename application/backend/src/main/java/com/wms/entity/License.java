@@ -1,18 +1,18 @@
 package com.wms.entity;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+
 import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
 @Getter
 @Setter
-@RequiredArgsConstructor
+@Builder
 @ToString
 @Table(name = "license")
+@NoArgsConstructor
+@AllArgsConstructor
 public class License {
 
     @Id

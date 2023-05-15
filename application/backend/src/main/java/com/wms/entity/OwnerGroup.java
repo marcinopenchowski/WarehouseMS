@@ -1,17 +1,17 @@
 package com.wms.entity;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+
 import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
-@RequiredArgsConstructor
+@Builder
 @ToString
 @Table(name = "owner_group")
+@NoArgsConstructor
+@AllArgsConstructor
 public class OwnerGroup {
 
     @Id

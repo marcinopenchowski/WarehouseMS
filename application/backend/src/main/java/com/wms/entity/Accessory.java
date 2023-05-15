@@ -1,13 +1,20 @@
 package com.wms.entity;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+
 import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
-@RequiredArgsConstructor
 @ToString
+@SuperBuilder
+@NoArgsConstructor
 @Table(name = "accessory")
-public class Accessory extends Item{
+public class Accessory extends Item {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 }
