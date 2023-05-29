@@ -7,3 +7,15 @@ services:
             dockerfile: application/backend/Dockerfile
         ports:
             - "8080:8080"
+    wms:
+        container_name: wms_c
+        build: 
+            context: .
+            dockerfile: application/frontend/wms/Dockerfile
+        ports:
+            - '3000:3000'
+        volumes:
+            - .:/app
+            - ./app/node_modules
+        stdin_open: true
+        tty: true
