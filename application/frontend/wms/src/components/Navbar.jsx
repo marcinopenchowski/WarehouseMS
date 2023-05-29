@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 
+
 export default function Navbar() {
   const [open, setOpen] = useState(true);
   const Menus = [
     { title: "Dashboard", src: "dashboard", path: "/" },
     { title: "Products", src: "search", path: "/products"},
-    { title: "User", src: "user", path: "/login"},
+    { title: "User", src: "user", path: "/login", spacing: true},
     { title: "Settings", src: "settings", path: "/settings"},
   ];
 
@@ -41,7 +42,7 @@ export default function Navbar() {
         {Menus.map((menu, index) => (
           <a href={menu.path}><li
             key={index}
-            className={` text-orange-500 text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-slate-500 rounded-md font-bold`}>
+            className={` text-orange-500 text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-slate-500 rounded-md font-bold ${menu.spacing ? "mt-9" : "mt-2"}`}>
             <img src={`/assets/images/${menu.src}.png`} alt="img" />
             <span className={`${!open && "hidden"} origin-left duration-200 `}>
               {menu.title}
