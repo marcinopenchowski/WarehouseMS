@@ -3,10 +3,10 @@ import React, { useState } from "react";
 export default function Navbar() {
   const [open, setOpen] = useState(true);
   const Menus = [
-    { title: "Dashboard", src: "dashboard" },
-    { title: "Search", src: "search" },
-    { title: "User", src: "user" },
-    { title: "Settings", src: "settings" },
+    { title: "Dashboard", src: "dashboard", path: "/" },
+    { title: "Products", src: "search", path: "/products"},
+    { title: "User", src: "user", path: "/login"},
+    { title: "Settings", src: "settings", path: "/settings"},
   ];
 
   return (
@@ -39,7 +39,7 @@ export default function Navbar() {
       </div>
       <ul className="pt-6">
         {Menus.map((menu, index) => (
-          <a href={menu.title}><li
+          <a href={menu.path}><li
             key={index}
             className={` text-orange-500 text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-slate-500 rounded-md font-bold`}>
             <img src={`/assets/images/${menu.src}.png`} alt="img" />

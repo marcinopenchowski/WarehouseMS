@@ -7,7 +7,7 @@ export default function Login() {
             <div
                 className="grid grid-cols-1 md:grid-cols-2 m-auto h-[550px] shadow-lg shadow-gray-500 sm:max-w-[800px]">
                 <div className="w-full h-[550px] hidden md:block">
-                    <img className="w-full h-full" src="/assets/images/login.png" alt="/"/>
+                    <img className="w-full h-full" src="/assets/images/login.jpg" alt="/"/>
                 </div>
                 <div className="p-4 flex flex-col justify-around bg-white">
                     <form>
