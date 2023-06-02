@@ -12,8 +12,8 @@ export default function Navbar() {
   return (
     <div
       className={`${
-        open ? "w-72" : "w-20"
-      } duration-300 h-screen bg-zinc-700 relative p-5 pt-8`}
+        open ? "w-72" : "w-24"
+      } duration-200 h-screen bg-zinc-700 relative p-4 pt-8`}
     >
       <img
         src="/assets/images/control.png"
