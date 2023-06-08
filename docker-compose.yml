@@ -15,7 +15,6 @@ services:
         ports:
             - '3000:3000'
         volumes:
-            - .:/app
-            - ./app/node_modules
+            - .:/wms
         stdin_open: true
         tty: true
