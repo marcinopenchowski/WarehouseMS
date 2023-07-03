@@ -1,5 +1,5 @@
 import React from "react";
-import { getProductStatus } from "../lib/utils";
+import { getProductStatus } from "../../lib/utils";
 
 const productData = [
   {
