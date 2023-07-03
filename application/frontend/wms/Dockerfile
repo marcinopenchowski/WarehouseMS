@@ -1,8 +1,11 @@
 FROM node:17-alpine
 
+ENV NODE_ENV development
+
 WORKDIR /wms
 
-COPY ./package*.json .
+COPY package.json .
+COPY package-lock.json .
 
 RUN npm install
 

@@ -43,5 +43,6 @@
   },
   "devDependencies": {
     "tailwindcss": "^3.3.1"
-  }
+  },
+  "dev": "docker-compose -f docker-compose.yml up"
 }

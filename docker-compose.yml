@@ -9,12 +9,11 @@ services:
             - "8080:8080"
     wms:
         container_name: wms_c
+        image: wms_c:latest
         build: 
-            context: .
-            dockerfile: application/frontend/wms/Dockerfile
+            context: ./application/frontend/wms
+            dockerfile: Dockerfile
         ports:
             - '3000:3000'
         volumes:
-            - .:/wms
-        stdin_open: true
-        tty: true
+            - ./application/frontend/wms:/wms
