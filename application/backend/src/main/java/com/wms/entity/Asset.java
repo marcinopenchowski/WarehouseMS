@@ -1,16 +1,19 @@
 package com.wms.entity;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+
 import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
-@RequiredArgsConstructor
 @ToString
+@SuperBuilder
+@NoArgsConstructor
 @Table(name = "asset")
 public class Asset extends Item{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 }

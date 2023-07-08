@@ -1,18 +1,16 @@
 package com.wms.entity;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-import javax.persistence.*;
-import java.time.LocalDateTime;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-@Entity
+import javax.persistence.*;
+import java.time.LocalDate;
+
+@ToString
 @Getter
 @Setter
-@RequiredArgsConstructor
-@ToString
-@Table(name = "item")
+@SuperBuilder
+@NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Item {
 
@@ -36,7 +34,7 @@ public abstract class Item {
     private String description;
 
     @Column(name = "purchase_date")
-    private LocalDateTime purchaseDate;
+    private LocalDate purchaseDate;
 
     @Column(name = "purchase_cost")
     private Double purchaseCost;
