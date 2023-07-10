@@ -1,6 +1,7 @@
 package com.wms.service;
 
 import com.wms.entity.Accessory;
+import com.wms.entity.Item;
 import com.wms.mapper.AccessoryMapper;
 import com.wms.repository.AccessoryRepo;
 import lombok.RequiredArgsConstructor;
@@ -12,31 +13,31 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class AccessoryService implements EntityService<Accessory> {
+public class AccessoryService implements EntityService<Item> {
 
     private final AccessoryRepo accessoryRepo;
     private final AccessoryMapper entityMapper;
 
     @Override
-    public List<Accessory> findAll() {
+    public List<Item> findAll() {
         return accessoryRepo.findAll();
     }
 
     @Override
-    public Accessory findById(Long id) {
+    public Item findById(Long id) {
         return accessoryRepo.findById(id).orElse(null);
     }
 
     @Override
-    public Accessory update(Accessory accessory, Long id) {
+    public Item update(Item accessory, Long id) {
         return Optional.ofNullable(findById(id))
-                .map(it -> entityMapper.updateEntity(accessory))
+                .map(it -> entityMapper.updateEntity((Accessory) accessory))
                 .map(accessoryRepo::save)
                 .orElse(null);
     }
 
     @Override
-    public Accessory save(Accessory accessory) {
+    public Item save(Item accessory) {
         return accessoryRepo.save(accessory);
     }
 

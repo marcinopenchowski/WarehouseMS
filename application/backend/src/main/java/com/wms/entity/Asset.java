@@ -12,8 +12,5 @@ import javax.persistence.*;
 @SuperBuilder
 @NoArgsConstructor
 @Table(name = "asset")
-public class Asset extends Item{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Asset extends Item {
 }

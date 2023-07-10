@@ -1,6 +1,7 @@
 package com.wms.service;
 
 import com.wms.entity.Asset;
+import com.wms.entity.Item;
 import com.wms.mapper.AssetMapper;
 import com.wms.repository.AssetRepo;
 import lombok.RequiredArgsConstructor;
@@ -12,31 +13,31 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class AssetService implements EntityService<Asset> {
+public class AssetService implements EntityService<Item> {
 
     private final AssetRepo assetRepo;
     private final AssetMapper entityMapper;
 
     @Override
-    public List<Asset> findAll() {
+    public List<Item> findAll() {
         return assetRepo.findAll();
     }
 
     @Override
-    public Asset findById(Long id) {
+    public Item findById(Long id) {
         return assetRepo.findById(id).orElse(null);
     }
 
     @Override
-    public Asset update(Asset asset, Long id) {
+    public Item update(Item asset, Long id) {
         return Optional.ofNullable(findById(id))
-                .map(it -> entityMapper.updateEntity(asset))
+                .map(it -> entityMapper.updateEntity((Asset) asset))
                 .map(assetRepo::save)
                 .orElse(null);
     }
 
     @Override
-    public Asset save(Asset asset) {
+    public Item save(Item asset) {
         return assetRepo.save(asset);
     }
 
