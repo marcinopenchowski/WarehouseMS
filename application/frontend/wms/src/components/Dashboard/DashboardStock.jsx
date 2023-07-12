@@ -1,6 +1,6 @@
 import React from 'react'
 
-const productsListData = [
+export const productsListData = [
   {
     product_id: '1',
     product_category_id: '3',
@@ -53,7 +53,7 @@ const productsStatusStyleMap = {
   IN_STOCK: 'text-green-600 bg-green-100',
 }
 
-export default function RecentProducts() {
+export default function DashboardStock() {
   return (
     <div className="bg-white px-4 pt-3 pb-4 rounded-sm border border-gray-200 flex-1">
       <strong className="text-gray-700 font-large">Recent Products</strong>
