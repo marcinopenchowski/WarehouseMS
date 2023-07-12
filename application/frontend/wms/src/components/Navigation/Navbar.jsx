@@ -23,20 +23,25 @@ export default function Navbar() {
         alt="hide"
         onClick={() => setOpen(!open)}
       />
-      <div className="flex gap-x-4 items-center">
-        <img
-          src="/assets/images/logo.png"
-          className={`cursor-pointer duration-500 ${open && "rotate-[360deg]"}`}
-          alt="logo"
-        />
-        <h1
-          className={`${
-            !open && "scale-0"
-          } text-white origin-left font-medium text-2xl duration-300 text-center font-mono`}
-        >
-          WarehouseMS
-        </h1>
-      </div>
+      <a href="/">
+        <div className="flex gap-x-4 items-center">
+          <img
+            src="/assets/images/logo.png"
+            className={`cursor-pointer duration-500 ${
+              open && "rotate-[360deg]"
+            }`}
+            alt="logo"
+          />
+
+          <h1
+            className={`${
+              !open && "scale-0"
+            } text-white origin-left font-medium text-2xl duration-300 text-center font-mono`}
+          >
+            WarehouseMS
+          </h1>
+        </div>
+      </a>
       <ul className="pt-6">
         {Menus.map((menu, index) => (
           <a href={menu.path}>
