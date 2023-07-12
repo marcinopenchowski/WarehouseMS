@@ -1,5 +1,5 @@
-import React from "react";
-import Navbar from "../../components/Navigation/Navbar";
+import React from 'react'
+import { Header, Navbar } from '../../components'
 
 export default function Dashboard() {
   return (
@@ -7,9 +7,9 @@ export default function Dashboard() {
       <div>
         <Navbar />
       </div>
-      <div>
-        <h1>Products page</h1>
+      <div className="flex-1">
+        <Header />
       </div>
     </div>
-  );
+  )
 }
