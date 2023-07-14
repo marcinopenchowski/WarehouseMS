@@ -13,4 +13,9 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "accessory")
 public class Accessory extends Item {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 }

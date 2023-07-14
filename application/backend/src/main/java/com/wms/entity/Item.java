@@ -11,13 +11,7 @@ import java.time.LocalDate;
 @Setter
 @SuperBuilder
 @NoArgsConstructor
-@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Item {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", referencedColumnName = "id")

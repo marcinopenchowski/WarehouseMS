@@ -1,6 +1,5 @@
 package com.wms.service;
 
-import com.wms.entity.Item;
 import com.wms.entity.Software;
 import com.wms.mapper.SoftwareMapper;
 import com.wms.repository.SoftwareRepo;
@@ -13,31 +12,31 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class SoftwareService implements EntityService<Item> {
+public class SoftwareService implements EntityService<Software> {
 
     private final SoftwareRepo softwareRepo;
     private final SoftwareMapper entityMapper;
 
     @Override
-    public List<Item> findAll() {
+    public List<Software> findAll() {
         return softwareRepo.findAll();
     }
 
     @Override
-    public Item findById(Long id) {
+    public Software findById(Long id) {
         return softwareRepo.findById(id).orElse(null);
     }
 
     @Override
-    public Item update(Item software, Long id) {
+    public Software update(Software software, Long id) {
         return Optional.ofNullable(findById(id))
-                .map(it -> entityMapper.updateEntity((Software) software))
+                .map(it -> entityMapper.updateEntity(software))
                 .map(softwareRepo::save)
                 .orElse(null);
     }
 
     @Override
-    public Item save(Item software) {
+    public Software save(Software software) {
         return softwareRepo.save(software);
     }
 
