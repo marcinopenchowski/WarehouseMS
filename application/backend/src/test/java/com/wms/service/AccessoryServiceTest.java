@@ -47,7 +47,7 @@ class AccessoryServiceTest {
                                 .build()
                 )
                 .description("Słuchawki bezprzewodowe SteelSeries")
-                .purchaseCost(300.00)
+                .purchaseValue(300.00)
                 .purchaseDate(LocalDate.of(2019, 5, 3))
                 .build();
         Accessory accessory2 = Accessory.builder()
@@ -67,7 +67,7 @@ class AccessoryServiceTest {
                                 .build()
                 )
                 .description("Myszka bezprzewodowa SteelSeries")
-                .purchaseCost(450.00)
+                .purchaseValue(450.00)
                 .purchaseDate(LocalDate.of(2020, 8, 10))
                 .build();
 
