@@ -3,10 +3,7 @@ package com.wms.entity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @ToString
@@ -16,6 +13,11 @@ import java.time.LocalDate;
 @MappedSuperclass
 @NoArgsConstructor
 public abstract class Item {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")
