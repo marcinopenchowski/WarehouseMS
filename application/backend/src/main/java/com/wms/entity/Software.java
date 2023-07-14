@@ -14,11 +14,6 @@ import javax.persistence.*;
 @Table(name = "software")
 public class Software extends Item {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
     @Basic
     @Column(name = "license_id")
     private Long licenseId;
