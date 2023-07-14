@@ -1,18 +1,30 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Header, Navbar } from '../../components'
+import { useParams } from 'react-router-dom'
 import { Card, Typography } from '@material-tailwind/react'
 import { productsListData } from '../../components/Dashboard/DashboardStock'
 
 const TABLE_HEAD = [
   'ID',
   'Product Name',
-  'Product Category',
   'Price',
   'Description',
+  'Category Name',
   '',
 ]
 
 export default function Dashboard() {
+  const [records, setRecords] = useState([])
+  
+  useEffect(() => {
+    fetch('http://localhost:8080/assets')
+    .then(response => response.json())
+    .then(data => setRecords( data))
+    .catch(err => console.log(err))
+  }, [])
+
+
+
   return (
     <div className="flex">
       <div>
@@ -21,7 +33,7 @@ export default function Dashboard() {
       <div className="flex-1">
         <Header />
         <div className="m-5">
-          <Card className="overflow-scroll h-full w-full">
+           <Card className="overflow-scroll h-full w-full">
             <table className="w-full min-w-max table-auto text-center">
               <thead className="bg-gray-300">
                 <tr>
@@ -40,7 +52,7 @@ export default function Dashboard() {
                 </tr>
               </thead>
               <tbody>
-                {productsListData.map((product) => (
+                {records.map((product) => (
                   <tr
                     key={product.product_id}
                     className="even:bg-blue-gray-50/50">
@@ -49,7 +61,7 @@ export default function Dashboard() {
                         variant="small"
                         color="blue-gray"
                         className="font-normal">
-                        {product.product_id}
+                        {product.id}
                       </Typography>
                     </td>
                     <td className="p-4">
@@ -57,15 +69,7 @@ export default function Dashboard() {
                         variant="small"
                         color="blue-gray"
                         className="font-normal">
-                        {product.product_name}
-                      </Typography>
-                    </td>
-                    <td className="p-4">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal">
-                        {product.product_category_id}
+                        {product.name}
                       </Typography>
                     </td>
                     <td className="p-4">
@@ -82,6 +86,14 @@ export default function Dashboard() {
                         color="blue-gray"
                         className="font-normal">
                         {product.description}
+                      </Typography>
+                    </td>
+                    <td className="p-4">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal">
+                        {product.category.description}
                       </Typography>
                     </td>
                     <td className="p-4">
