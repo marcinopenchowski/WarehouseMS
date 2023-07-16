@@ -1,7 +1,6 @@
 import React, { useEffect, useContext } from 'react'
 import { Header, Navbar } from '../../components'
 import { Card, Typography } from '@material-tailwind/react'
-// import { productsListData } from '../../components/Dashboard/DashboardStock'
 import axios from 'axios'
 import { ProductContext } from '../../contexts/ProductContext.jsx'
 
@@ -51,63 +50,63 @@ export default function Dashboard() {
                 </tr>
               </thead>
               <tbody>
-              {product.map((item, index) => {
-                return (
-                  <tr key={index}>
-                    <td className="p-4">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal">
-                        {item.id}
-                      </Typography>
-                    </td>
-                    <td className="p-4">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal">
-                        {item.name}
-                      </Typography>
-                    </td>
-                    <td className="p-4">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal">
-                        {item.price}
-                      </Typography>
-                    </td>
-                    <td className="p-4">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal">
-                        {item.description}
-                      </Typography>
-                    </td>
-                    <td className="p-4">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal">
-                        {item.category.name}
-                      </Typography>
-                    </td>
-                    <td className="p-4">
-                      <Typography
-                        as="a"
-                        href="#"
-                        variant="small"
-                        color="blue"
-                        className="font-medium">
-                        Edit
-                      </Typography>
-                    </td>
-                  </tr>
-                )
-              })}
-            </tbody>
+                {product.map((item, index) => {
+                  return (
+                    <tr key={index}>
+                      <td className="p-4">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal">
+                          {item.id}
+                        </Typography>
+                      </td>
+                      <td className="p-4">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal">
+                          {item.name}
+                        </Typography>
+                      </td>
+                      <td className="p-4">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal">
+                          {item.price}
+                        </Typography>
+                      </td>
+                      <td className="p-4">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal">
+                          {item.description}
+                        </Typography>
+                      </td>
+                      <td className="p-4">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal">
+                          {item.category.name}
+                        </Typography>
+                      </td>
+                      <td className="p-4">
+                        <Typography
+                          as="a"
+                          href="#"
+                          variant="small"
+                          color="blue"
+                          className="font-medium">
+                          Edit
+                        </Typography>
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
             </table>
           </Card>
         </div>
