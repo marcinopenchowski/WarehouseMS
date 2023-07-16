@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { Header, Navbar } from '../../components'
-import { useParams } from 'react-router-dom'
 import { Card, Typography } from '@material-tailwind/react'
-import { productsListData } from '../../components/Dashboard/DashboardStock'
+// import { productsListData } from '../../components/Dashboard/DashboardStock'
+import axios from 'axios'
+import { ProductContext } from '../../contexts/ProductContext.jsx'
 
-const TABLE_HEAD = [
+export const TABLE_HEAD = [
   'ID',
   'Product Name',
   'Price',
@@ -14,16 +15,14 @@ const TABLE_HEAD = [
 ]
 
 export default function Dashboard() {
-  const [records, setRecords] = useState([])
-  
+  const { product, setProduct } = useContext(ProductContext)
+
   useEffect(() => {
-    fetch('http://localhost:8080/assets')
-    .then(response => response.json())
-    .then(data => setRecords( data))
-    .catch(err => console.log(err))
-  }, [])
-
-
+    axios
+      .get('https://mocki.io/v1/00197dfd-a8af-4ecc-a2b4-111d3faed23b')
+      .then((res) => setProduct(res.data))
+      .catch((err) => console.log(err))
+  }, [setProduct])
 
   return (
     <div className="flex">
@@ -33,7 +32,7 @@ export default function Dashboard() {
       <div className="flex-1">
         <Header />
         <div className="m-5">
-           <Card className="overflow-scroll h-full w-full">
+          <Card className="overflow-scroll h-full w-full">
             <table className="w-full min-w-max table-auto text-center">
               <thead className="bg-gray-300">
                 <tr>
@@ -52,16 +51,15 @@ export default function Dashboard() {
                 </tr>
               </thead>
               <tbody>
-                {records.map((product) => (
-                  <tr
-                    key={product.product_id}
-                    className="even:bg-blue-gray-50/50">
+              {product.map((item, index) => {
+                return (
+                  <tr key={index}>
                     <td className="p-4">
                       <Typography
                         variant="small"
                         color="blue-gray"
                         className="font-normal">
-                        {product.id}
+                        {item.id}
                       </Typography>
                     </td>
                     <td className="p-4">
@@ -69,7 +67,7 @@ export default function Dashboard() {
                         variant="small"
                         color="blue-gray"
                         className="font-normal">
-                        {product.name}
+                        {item.name}
                       </Typography>
                     </td>
                     <td className="p-4">
@@ -77,7 +75,7 @@ export default function Dashboard() {
                         variant="small"
                         color="blue-gray"
                         className="font-normal">
-                        {product.price}
+                        {item.price}
                       </Typography>
                     </td>
                     <td className="p-4">
@@ -85,7 +83,7 @@ export default function Dashboard() {
                         variant="small"
                         color="blue-gray"
                         className="font-normal">
-                        {product.description}
+                        {item.description}
                       </Typography>
                     </td>
                     <td className="p-4">
@@ -93,7 +91,7 @@ export default function Dashboard() {
                         variant="small"
                         color="blue-gray"
                         className="font-normal">
-                        {product.category.description}
+                        {item.category.name}
                       </Typography>
                     </td>
                     <td className="p-4">
@@ -107,8 +105,9 @@ export default function Dashboard() {
                       </Typography>
                     </td>
                   </tr>
-                ))}
-              </tbody>
+                )
+              })}
+            </tbody>
             </table>
           </Card>
         </div>
