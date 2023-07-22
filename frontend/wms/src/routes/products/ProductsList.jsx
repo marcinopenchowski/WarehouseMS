@@ -5,7 +5,6 @@ import axios from 'axios'
 import { ProductContext } from '../../contexts/ProductContext.jsx'
 
 export const TABLE_HEAD = [
-  'ID',
   'Product Name',
   'Price',
   'Description',
@@ -14,14 +13,26 @@ export const TABLE_HEAD = [
 ]
 
 export default function Dashboard() {
-  const { product, setProduct } = useContext(ProductContext)
+  const { products, setProducts } = useContext(ProductContext)
+  const fetchAssetData = () => axios.get('http://localhost:8080/asset')
+  const fetchAccessoryData = () => axios.get('http://localhost:8080/accessory')
+  const fetchSoftwareData = () => axios.get('http://localhost:8080/software')
 
   useEffect(() => {
     axios
-      .get('https://mocki.io/v1/00197dfd-a8af-4ecc-a2b4-111d3faed23b')
-      .then((res) => setProduct(res.data))
+      .all([fetchAssetData(), fetchAccessoryData(), fetchSoftwareData()])
+      .then(
+        axios.spread((assetRes, accessoryRes, softwareRes) => {
+          const combinedData = [
+            ...assetRes.data,
+            ...accessoryRes.data,
+            ...softwareRes.data,
+          ]
+          setProducts(combinedData)
+        })
+      )
       .catch((err) => console.log(err))
-  }, [setProduct])
+  }, [setProducts])
 
   return (
     <div className="flex">
@@ -50,17 +61,9 @@ export default function Dashboard() {
                 </tr>
               </thead>
               <tbody>
-                {product.map((item, index) => {
+                {products.map((item, index) => {
                   return (
                     <tr key={index}>
-                      <td className="p-4">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal">
-                          {item.id}
-                        </Typography>
-                      </td>
                       <td className="p-4">
                         <Typography
                           variant="small"
