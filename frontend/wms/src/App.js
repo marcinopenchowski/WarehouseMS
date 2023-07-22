@@ -4,10 +4,10 @@ import { useState } from 'react'
 import { ProductContext } from './contexts/ProductContext.jsx'
 
 function App() {
-  const [product, setProduct] = useState([])
+  const [products, setProducts] = useState([])
 
   return (
-    <ProductContext.Provider value={{ product, setProduct }}>
+    <ProductContext.Provider value={{ products, setProducts }}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<ProductsList />} />
