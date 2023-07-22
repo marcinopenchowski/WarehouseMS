@@ -4,16 +4,16 @@ services:
         image: warehousems:latest
         build:
             context: .
-            dockerfile: application/backend/Dockerfile
+            dockerfile: Dockerfile
         ports:
             - "8080:8080"
     wms:
         container_name: wms_c
         image: wms_c:latest
         build: 
-            context: ./application/frontend/wms
+            context: ./frontend/wms
             dockerfile: Dockerfile
         ports:
             - '3000:3000'
         volumes:
-            - ./application/frontend/wms:/wms
+            - ./frontend/wms:/wms
