@@ -47,7 +47,7 @@ export default function Navbar() {
           <a href={menu.path}>
             <li
               key={index}
-              className={` text-orange-500 text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-slate-500 rounded-md font-bold ${
+              className={` text-yellow-500 text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-slate-500 rounded-md font-bold ${
                 menu.spacing ? "mt-9" : "mt-2"
               }`}
             >
