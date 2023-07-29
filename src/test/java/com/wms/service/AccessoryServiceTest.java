@@ -1,6 +1,7 @@
 package com.wms.service;
 
 import com.wms.entity.*;
+import com.wms.entity.enums.CategoryName;
 import com.wms.mapper.AccessoryMapper;
 import com.wms.repository.AccessoryRepo;
 import org.junit.jupiter.api.Assertions;

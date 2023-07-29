@@ -3,7 +3,7 @@ package com.wms.entity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Getter
