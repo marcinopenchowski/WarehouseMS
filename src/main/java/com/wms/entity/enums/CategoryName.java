@@ -1,4 +1,4 @@
-package com.wms.entity;
+package com.wms.entity.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

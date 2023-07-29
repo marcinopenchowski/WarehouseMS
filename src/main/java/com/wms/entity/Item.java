@@ -1,9 +1,9 @@
 package com.wms.entity;
 
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 
 @ToString
