@@ -6,34 +6,84 @@ import { FilterMatchMode } from 'primereact/api'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
 import { InputText } from 'primereact/inputtext'
+import { Button } from 'primereact/button'
 import 'primereact/resources/themes/saga-orange/theme.css'
 import 'primereact/resources/primereact.min.css'
 import 'primeicons/primeicons.css'
+import RowEdit from '../edit/RowEdit'
 
 export default function Dashboard() {
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
   })
+
   const { products, setProducts } = useContext(ProductContext)
   const fetchAssetData = () => axios.get('http://localhost:8080/asset')
   const fetchAccessoryData = () => axios.get('http://localhost:8080/accessory')
   const fetchSoftwareData = () => axios.get('http://localhost:8080/software')
 
-  useEffect(() => {
+  const fetchDataAndUpdateState = () => {
     axios
       .all([fetchAssetData(), fetchAccessoryData(), fetchSoftwareData()])
       .then(
         axios.spread((assetRes, accessoryRes, softwareRes) => {
+          const assetDataWithType = assetRes.data.map((asset) => ({
+            ...asset,
+            type: 'asset',
+          }));
+          const accessoryDataWithType = accessoryRes.data.map((accessory) => ({
+            ...accessory,
+            type: 'accessory',
+          }));
+          const softwareDataWithType = softwareRes.data.map((software) => ({
+            ...software,
+            type: 'software',
+          }));
+  
           const combinedData = [
-            ...assetRes.data,
-            ...accessoryRes.data,
-            ...softwareRes.data,
-          ]
-          setProducts(combinedData)
+            ...assetDataWithType,
+            ...accessoryDataWithType,
+            ...softwareDataWithType,
+          ];
+          setProducts(combinedData);
         })
       )
-      .catch((err) => console.log(err))
-  }, [setProducts])
+      .catch((err) => console.log(err));
+  };
+  
+
+  const deleteProduct = async (id, type) => {
+    try {
+      // Determine the appropriate endpoint based on the product type
+      const endpoint = `http://localhost:8080/${type}/${id}`
+
+      // Make a DELETE request to the server endpoint to delete the product
+      await axios.delete(endpoint)
+
+      // If the deletion was successful, update the state with the modified array
+      const updatedProducts = products.filter((product) => product.id !== id)
+      setProducts(updatedProducts)
+      fetchDataAndUpdateState()
+    } catch (error) {
+      console.error('Error deleting product:', error)
+      // Handle any error scenarios if necessary
+    }
+  }
+
+  const actionBodyTemplate = (rowData) => {
+    return (
+      <div className="flex flex-row gap-4">
+        <Button type="button" icon="pi pi-pencil" rounded />
+        <Button
+          type="button"
+          icon="pi pi-trash"
+          style={{ backgroundColor: 'var(--red-300)' }}
+          rounded
+          onClick={() => deleteProduct(rowData.id, rowData.type)}
+        />
+      </div>
+    )
+  }
 
   return (
     <div className="flex">
@@ -88,6 +138,7 @@ export default function Dashboard() {
               sortable
               style={{ width: '25%' }}
             />
+            <Column body={actionBodyTemplate} />
           </DataTable>
         </div>
       </div>
