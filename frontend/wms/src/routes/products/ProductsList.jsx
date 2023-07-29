@@ -1,18 +1,19 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect, useContext, useState } from 'react'
 import { Header, Navbar } from '../../components'
-import { Card, Typography } from '@material-tailwind/react'
 import axios from 'axios'
 import { ProductContext } from '../../contexts/ProductContext.jsx'
-
-export const TABLE_HEAD = [
-  'Product Name',
-  'Price',
-  'Description',
-  'Category Name',
-  '',
-]
+import { FilterMatchMode } from 'primereact/api'
+import { DataTable } from 'primereact/datatable'
+import { Column } from 'primereact/column'
+import { InputText } from 'primereact/inputtext'
+import 'primereact/resources/themes/saga-orange/theme.css'
+import 'primereact/resources/primereact.min.css'
+import 'primeicons/primeicons.css'
 
 export default function Dashboard() {
+  const [filters, setFilters] = useState({
+    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  })
   const { products, setProducts } = useContext(ProductContext)
   const fetchAssetData = () => axios.get('http://localhost:8080/asset')
   const fetchAccessoryData = () => axios.get('http://localhost:8080/accessory')
@@ -42,76 +43,52 @@ export default function Dashboard() {
       <div className="flex-1">
         <Header />
         <div className="m-5">
-          <Card className="overflow-scroll h-full w-full">
-            <table className="w-full min-w-max table-auto text-center">
-              <thead className="bg-gray-300">
-                <tr>
-                  {TABLE_HEAD.map((head) => (
-                    <th
-                      key={head}
-                      className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal leading-none opacity-70">
-                        {head}
-                      </Typography>
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {products.map((item, index) => {
-                  return (
-                    <tr key={index}>
-                      <td className="p-4">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal">
-                          {item.name}
-                        </Typography>
-                      </td>
-                      <td className="p-4">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal">
-                          {item.price}
-                        </Typography>
-                      </td>
-                      <td className="p-4">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal">
-                          {item.description}
-                        </Typography>
-                      </td>
-                      <td className="p-4">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal">
-                          {item.category.name}
-                        </Typography>
-                      </td>
-                      <td className="p-4">
-                        <Typography
-                          as="a"
-                          href="#"
-                          variant="small"
-                          color="blue"
-                          className="font-medium">
-                          Edit
-                        </Typography>
-                      </td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
-          </Card>
+          <div className="flex justify-content-end mb-5">
+            <span className="p-input-icon-left">
+              <i className="pi pi-search" />
+              <InputText
+                onInput={(e) =>
+                  setFilters({
+                    global: {
+                      value: e.target.value,
+                      matchMode: FilterMatchMode.CONTAINS,
+                    },
+                  })
+                }
+                placeholder="Keyword Search"
+              />
+            </span>
+          </div>
+          <DataTable
+            removableSort
+            filters={filters}
+            sortMode="multiple"
+            value={products}
+            style={{ minWidth: '50rem' }}>
+            <Column
+              field="name"
+              header="Product Name"
+              sortable
+              style={{ width: '25%' }}></Column>
+            <Column
+              field="price"
+              header="Price"
+              sortable
+              style={{ width: '25%' }}
+            />
+            <Column
+              field="description"
+              header="Description"
+              sortable
+              style={{ width: '25%' }}
+            />
+            <Column
+              field="category.name"
+              header="Category"
+              sortable
+              style={{ width: '25%' }}
+            />
+          </DataTable>
         </div>
       </div>
     </div>
