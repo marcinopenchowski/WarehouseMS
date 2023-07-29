@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import {
   HiOutlineBell,
   HiOutlineChatAlt,
-  HiOutlineSearch,
+  // HiOutlineSearch,
 } from "react-icons/hi";
 import { Menu, Popover, Transition } from "@headlessui/react";
 import classNames from "classnames/bind";
@@ -13,7 +13,8 @@ export default function Header() {
 
   return (
     <div className="bg-white h-16 px-4 flex justify-end items-center border-b border-gray-200">
-      {/* <div className="relative">
+      {/* FIXME:
+      <div className="relative">
         <HiOutlineSearch
           fontSize={20}
           className="text-gray-400 absolute top-1/2 -translate-y-1/2 left-3"
