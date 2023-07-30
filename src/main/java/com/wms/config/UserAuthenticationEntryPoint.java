@@ -2,7 +2,6 @@ package com.wms.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wms.dto.ErrorDto;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
@@ -16,6 +15,7 @@ import java.io.IOException;
 @Component
 public class UserAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
+    private static final String UNAUTHORIZED_PATH = "Unauthorized path";
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     @Override
@@ -25,6 +25,6 @@ public class UserAuthenticationEntryPoint implements AuthenticationEntryPoint {
             AuthenticationException authException) throws IOException {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-        OBJECT_MAPPER.writeValue(response.getOutputStream(), new ErrorDto("Unauthorized path"));
+        OBJECT_MAPPER.writeValue(response.getOutputStream(), new ErrorDto(UNAUTHORIZED_PATH));
     }
 }
