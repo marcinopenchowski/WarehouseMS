@@ -1,6 +1,5 @@
 package com.wms.dto;
 
-import com.wms.entity.enums.AuthRole;
 import lombok.*;
 
 @Data
@@ -10,5 +9,5 @@ import lombok.*;
 public class CredentialsDto {
     private String login;
     private char[] password;
-    private AuthRole authRole;
+    private String authRoles;
 }

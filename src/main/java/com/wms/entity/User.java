@@ -1,6 +1,5 @@
 package com.wms.entity;
 
-import com.wms.entity.enums.AuthRole;
 import lombok.*;
 
 import jakarta.persistence.*;
@@ -25,6 +24,6 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "role")
-    private AuthRole authRole;
+    @Column(name = "authRole")
+    private String authRoles;
 }

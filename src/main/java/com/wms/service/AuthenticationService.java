@@ -17,35 +17,37 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-public class UserService {
-
+public class AuthenticationService {
+    private static final String UNKNOWN_USER = "Unknown user";
+    private static final String WRONG_PASSWORD = "Wrong password";
+    private static final String LOGIN_EXISTS = "Login already exists";
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
 
     public UserDto findByLogin(String login) {
         User user = userRepository.findByLogin(login)
-                .orElseThrow(() -> new AuthenticationException("Unknown user", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new AuthenticationException(UNKNOWN_USER, HttpStatus.NOT_FOUND));
 
         return userMapper.toUserDto(user);
     }
 
     public UserDto login(CredentialsDto credentialsDto) {
         User user = userRepository.findByLogin(credentialsDto.getLogin())
-                .orElseThrow(() -> new AuthenticationException("Unknown user", HttpStatus.BAD_REQUEST));
+                .orElseThrow(() -> new AuthenticationException(UNKNOWN_USER, HttpStatus.BAD_REQUEST));
 
-        if(passwordEncoder.matches(CharBuffer.wrap(credentialsDto.getPassword()), user.getPassword())) {
+        if (passwordEncoder.matches(CharBuffer.wrap(credentialsDto.getPassword()), user.getPassword())) {
             return userMapper.toUserDto(user);
         }
 
-        throw new AuthenticationException("Wrong password", HttpStatus.BAD_REQUEST);
+        throw new AuthenticationException(WRONG_PASSWORD, HttpStatus.BAD_REQUEST);
     }
 
     public UserDto register(CredentialsDto credentialsDto) {
         Optional<User> userOptional = userRepository.findByLogin(credentialsDto.getLogin());
 
-        if(userOptional.isPresent()) {
-            throw new AuthenticationException("Login already exists", HttpStatus.BAD_REQUEST);
+        if (userOptional.isPresent()) {
+            throw new AuthenticationException(LOGIN_EXISTS, HttpStatus.BAD_REQUEST);
         }
 
         User user = userMapper.registerUser(credentialsDto);
