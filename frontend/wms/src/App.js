@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
-import { Home, ProductsList, Settings, Login, Profile, RowEdit } from './routes'
+import { Home, ProductsList, Settings, Login, Profile } from './routes'
 import { useState } from 'react'
 import { ProductContext } from './contexts/ProductContext.jsx'
 
@@ -14,7 +14,6 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/edit" element={<RowEdit />} />
       </Routes>
     </ProductContext.Provider>
   )

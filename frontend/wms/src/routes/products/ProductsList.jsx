@@ -10,19 +10,20 @@ import { Button } from 'primereact/button'
 import 'primereact/resources/themes/saga-orange/theme.css'
 import 'primereact/resources/primereact.min.css'
 import 'primeicons/primeicons.css'
-import RowEdit from '../edit/RowEdit'
+import AddProduct from '../../components/TableData/AddProduct'
 
 export default function Dashboard() {
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
   })
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const { products, setProducts } = useContext(ProductContext)
   const fetchAssetData = () => axios.get('http://localhost:8080/asset')
   const fetchAccessoryData = () => axios.get('http://localhost:8080/accessory')
   const fetchSoftwareData = () => axios.get('http://localhost:8080/software')
 
-  const fetchDataAndUpdateState = () => {
+  useEffect(() => {
     axios
       .all([fetchAssetData(), fetchAccessoryData(), fetchSoftwareData()])
       .then(
@@ -30,43 +31,37 @@ export default function Dashboard() {
           const assetDataWithType = assetRes.data.map((asset) => ({
             ...asset,
             type: 'asset',
-          }));
+          }))
           const accessoryDataWithType = accessoryRes.data.map((accessory) => ({
             ...accessory,
             type: 'accessory',
-          }));
+          }))
           const softwareDataWithType = softwareRes.data.map((software) => ({
             ...software,
             type: 'software',
-          }));
-  
+          }))
+
           const combinedData = [
             ...assetDataWithType,
             ...accessoryDataWithType,
             ...softwareDataWithType,
-          ];
-          setProducts(combinedData);
+          ]
+          setProducts(combinedData)
         })
       )
-      .catch((err) => console.log(err));
-  };
-  
+      .catch((err) => console.log(err))
+  }, [setProducts])
 
   const deleteProduct = async (id, type) => {
     try {
-      // Determine the appropriate endpoint based on the product type
       const endpoint = `http://localhost:8080/${type}/${id}`
 
-      // Make a DELETE request to the server endpoint to delete the product
       await axios.delete(endpoint)
 
-      // If the deletion was successful, update the state with the modified array
       const updatedProducts = products.filter((product) => product.id !== id)
       setProducts(updatedProducts)
-      fetchDataAndUpdateState()
     } catch (error) {
       console.error('Error deleting product:', error)
-      // Handle any error scenarios if necessary
     }
   }
 
@@ -83,6 +78,10 @@ export default function Dashboard() {
         />
       </div>
     )
+  }
+
+  const toggleModal = () => {
+    setIsModalOpen((prev) => !prev)
   }
 
   return (
@@ -110,6 +109,9 @@ export default function Dashboard() {
             </span>
           </div>
           <DataTable
+            paginator
+            rows={5}
+            rowsPerPageOptions={[2, 5, 10]}
             removableSort
             filters={filters}
             sortMode="multiple"
@@ -140,6 +142,12 @@ export default function Dashboard() {
             />
             <Column body={actionBodyTemplate} />
           </DataTable>
+        </div>
+        <div className="flex justify-end m-5">
+          <Button icon="pi pi-plus" onClick={toggleModal}>
+            Add product
+          </Button>
+          <AddProduct isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
         </div>
       </div>
     </div>
