@@ -25,8 +25,8 @@ export default function AddProduct({ isOpen, setIsOpen }) {
   } = useForm()
 
   const toast = useRef(null)
-  const [selectedOwner, setSelectedOwner] = useState(null)
-  const [selectedCategory, setSelectedCategory] = useState(null)
+  // const [selectedOwner, setSelectedOwner] = useState(null)
+  // const [selectedCategory, setSelectedCategory] = useState(null)
   const [selectedType, setSelectedType] = useState(null)
   const [date, setDate] = useState(null)
   const [owner, setOwner] = useState([])
@@ -43,7 +43,6 @@ export default function AddProduct({ isOpen, setIsOpen }) {
         console.error('Error fetching data:', error)
       }
     }
-
     fetchData()
   }, [])
 
@@ -69,6 +68,7 @@ export default function AddProduct({ isOpen, setIsOpen }) {
     try {
       const type = selectedType ? selectedType.name : ''
       const endpoint = `http://localhost:8080/${type}`
+      console.log(data)
       await axios.post(endpoint, data)
       showSuccess()
     } catch (error) {
@@ -126,9 +126,7 @@ export default function AddProduct({ isOpen, setIsOpen }) {
                   id={field.name}
                   {...field}
                   autoFocus
-                  className={
-                    (classNames({ 'p-invalid': fieldState.invalid }), 'w-full')
-                  }
+                  className={fieldState.invalid ? 'p-invalid w-full' : 'w-full'}
                 />
               )}
             />
@@ -151,16 +149,18 @@ export default function AddProduct({ isOpen, setIsOpen }) {
                   value: 0,
                   message: 'Price cannot be less than 0',
                 },
+                pattern: {
+                  value: /^[0-9]*$/,
+                  message: 'Please enter only numbers',
+                },
               }}
               render={({ field, fieldState }) => (
                 <InputText
                   id={field.price}
                   {...field}
-                  type="number"
+                  type="text"
                   autoFocus
-                  className={
-                    (classNames({ 'p-invalid': fieldState.invalid }), 'w-full')
-                  }
+                  className={fieldState.invalid ? 'p-invalid w-full' : 'w-full'}
                 />
               )}
             />
@@ -173,77 +173,126 @@ export default function AddProduct({ isOpen, setIsOpen }) {
           {getFormErrorMessage('price')}
         </div>
         <div className="field w-1/2">
-          <span className="p-float-label w-1/2">
-            <InputText
-              {...register('description')}
-              id="description"
-              className="w-full"
+          <span className="p-float-label">
+            <Controller
+              name="description"
+              control={control}
+              rules={{
+                required: 'Description cannot be empty',
+                minLength: 10,
+                maxLength: 100,
+              }}
+              render={({ field, fieldState }) => (
+                <InputText
+                  id={field.description}
+                  {...field}
+                  className={fieldState.invalid ? 'p-invalid w-full' : 'w-full'}
+                />
+              )}
             />
-            <label htmlFor="description">Description</label>
+            <label
+              htmlFor="description"
+              className={classNames({ 'p-error': errors.description })}>
+              Description
+            </label>
           </span>
+          {getFormErrorMessage('description')}
         </div>
-        <span className="p-float-label w-1/2">
-          <InputText
-            {...register('purchase_value')}
-            id="purchase_value"
+        <div className="field w-1/2">
+          <span className="p-float-label">
+            <Controller
+              name="purchase_value"
+              control={control}
+              rules={{
+                required: 'Purchase value cannot be empty',
+                pattern: {
+                  value: /^[0-9]*$/,
+                  message: 'Please enter only numbers',
+                },
+              }}
+              render={({ field, fieldState }) => (
+                <InputText
+                  id={field.purchase_value}
+                  {...field}
+                  className={fieldState.invalid ? 'p-invalid w-full' : 'w-full'}
+                  type="text"
+                />
+              )}
+            />
+            <label
+              htmlFor="purchase_value"
+              className={classNames({ 'p-error': errors.purchase_value })}>
+              Purchase value
+            </label>
+          </span>
+          {getFormErrorMessage('purchase_value')}
+        </div>
+        <div className="field w-1/2">
+          <Calendar
+            value={date}
+            id="purchase_date"
+            onChange={(e) => setDate(e.value)}
+            showIcon
             className="w-full"
+            {...register('purchase_date')}
+            dateFormat="yy/mm/dd"
+            placeholder="Purchase Date"
           />
-          <label htmlFor="purchase_value">Purchase value</label>
-        </span>
-        <Calendar
-          value={date}
-          id="purchase_date"
-          onChange={(e) => setDate(e.value)}
-          showIcon
-          className="w-1/2"
-          {...register('purchase_date')}
-          dateFormat="yy/mm/dd"
-          placeholder="Purchase Date"
-        />
-        <span className="p-float-label w-1/2">
-          <Dropdown
-            inputId="owner"
-            value={selectedOwner}
-            onChange={(e) => setSelectedOwner(e.value)}
-            options={owner.map((option) => ({
-              value: option.id,
-              label: `${option.firstName} ${option.lastName}`,
-            }))}
-            optionLabel="label"
-            placeholder="Select product owner"
-            className="w-full"
-            {...register('owner', {
-              required: 'Product owner is required',
-            })}
-          />
-          <label htmlFor="owner">Product Owner</label>
-          {errors.owner && (
-            <span className="text-red-500 text-sm">{errors.owner.message}</span>
-          )}
-        </span>
-        <span className="p-float-label w-1/2">
-          <Dropdown
-            inputId="category"
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.value)}
-            options={category.map((option) => ({
-              value: option.id,
-              label: `${option.name}`,
-            }))}
-            optionLabel="label"
-            placeholder="Select product category"
-            className="w-full"
-            {...register('category', {
-              required: 'Product category is required',
-            })}
-          />
-          <label htmlFor="category">Product category</label>
-          {errors.category && (
-            <span className="text-red-500 text-sm">
-              {errors.category.message}
-            </span>
-          )}
-        </span>
+        </div>
+        <div className="field w-1/2">
+          <span className="p-float-label">
+            <Controller
+              name="owner_id"
+              control={control}
+              rules={{ required: 'Product owner is required' }}
+              render={({ field, fieldState }) => (
+                <Dropdown
+                  inputId="owner_id"
+                  {...field}
+                  className={fieldState.invalid ? 'p-invalid w-full' : 'w-full'}
+                  options={owner.map((option) => ({
+                    value: option.id,
+                    label: `${option.firstName} ${option.lastName}`,
+                  }))}
+                  optionLabel="label"
+                />
+              )}
+            />
+            <label
+              htmlFor="owner_id"
+              className={classNames({ 'p-error': errors.owner })}>
+              Product Owner
+            </label>
+          </span>
+          {getFormErrorMessage('owner_id')}
+        </div>
+        <div className="field w-1/2">
+          <span className="p-float-label">
+            <Controller
+              name="category_id"
+              control={control}
+              rules={{ required: 'Product category is required' }}
+              render={({ field, fieldState }) => (
+                <Dropdown
+                  inputId="category_id"
+                  {...field}
+                  className={fieldState.invalid ? 'p-invalid w-full' : 'w-full'}
+                  options={category.map((option) => ({
+                    value: option.id,
+                    label: `${option.name}`,
+                  }))}
+                  optionLabel="label"
+                />
+              )}
+            />
+            <label
+              htmlFor="category_id"
+              className={classNames({ 'p-error': errors.owner })}>
+              Product category
+            </label>
+          </span>
+          {getFormErrorMessage('category_id')}
+        </div>
         <div className="flex justify-end items-center mt-6">
           <Button
             type="button"
