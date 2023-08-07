@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
-import { Home, ProductsList, Settings, Login, Profile } from './routes'
+import { Home, ProductsList, Settings, Login, Profile, Register } from './routes'
 import { useState } from 'react'
 import { ProductContext } from './contexts/ProductContext.jsx'
 
@@ -21,6 +21,7 @@ function App() {
           <Route path="/login" element={<Login />} />
         )}
         <Route path="/*" element={<Navigate to="/login" />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </ProductContext.Provider>
   )
