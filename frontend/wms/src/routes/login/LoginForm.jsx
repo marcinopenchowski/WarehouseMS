@@ -1,36 +1,31 @@
-import axios, { AxiosError } from 'axios'
+import axios from 'axios'
 import React, { useState } from 'react'
-import { useSignIn } from 'react-auth-kit';
-
+import api from '../../api/axiosInstance'
 
 export default function Login() {
-//TODO: finish react authorization
-//   const [error, setError] = useState('')
-//   const signIn = useSignIn()
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [token, setToken] = useState(null)
 
-//   const onSubmit = async (values) => {
-//     console.log('Values: ', values)
-//     setError('')
+  async function handleLogin(event) {
+    event.preventDefault()
 
-//     try {
-//       const response = await axios.post('API_URL_FOR_LOGIN', values)
-//       signIn({
-//         token: response.data.token,
-//         expiresIn: 3600,
-//         tokenType: 'Bearer',
-//         authState: { username: values.username },
-//       })
-//     } catch (err) {
-//       if (axios.isAxiosError(err)) {
-//         setError(
-//           err.response?.data.message
-//         )
-//       } else {
-//         setError(err.message)
-//       }
-//       console.log('Error: ', err)
-//     }
-//   }
+    try {
+      const credentials = {
+        login: username,
+        password: password,
+      }
+      const loginUrl = `/login`
+      const res = await api.post(loginUrl, credentials)
+      const { token } = res.data
+      setToken(token)
+      localStorage.setItem('jwtToken', token)
+      console.log(token)
+    } catch (error) {
+      console.error('Error logging in:', error)
+    }
+  }
+
   return (
     <div className="w-full h-screen flex bg-gray-100">
       <div className="grid grid-cols-1 md:grid-cols-2 m-auto h-[550px] shadow-lg shadow-gray-500 sm:max-w-[800px]">
@@ -49,14 +44,20 @@ export default function Login() {
                 className="border p-2 my-2 w-full"
                 type="text"
                 placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
               />
               <input
                 className="border p-2 my-2 w-full"
                 type="password"
                 placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <button className="w-full py-2 my-4 bg-gray-300 hover:bg-gray-400">
+            <button
+              className="w-full py-2 my-4 bg-gray-300 hover:bg-gray-400"
+              onClick={handleLogin}>
               Sign in
             </button>
             <p className="text-center">Forgot Username or Password?</p>
