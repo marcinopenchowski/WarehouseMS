@@ -1,8 +1,7 @@
-import axios from 'axios'
 import React, { useState } from 'react'
 import api from '../../api/axiosInstance'
 
-export default function Login() {
+export default function LoginForm() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [token, setToken] = useState(null)
@@ -62,7 +61,9 @@ export default function Login() {
             </button>
             <p className="text-center">Forgot Username or Password?</p>
           </form>
-          <p className="text-center">Sign Up</p>
+          <a href="/register">
+            <p className="text-center">Sign Up</p>
+          </a>
         </div>
       </div>
     </div>
