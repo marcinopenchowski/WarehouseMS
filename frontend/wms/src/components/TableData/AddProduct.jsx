@@ -6,8 +6,9 @@ import { Toast } from 'primereact/toast'
 import { Dropdown } from 'primereact/dropdown'
 import { Calendar } from 'primereact/calendar'
 import { useForm, Controller } from 'react-hook-form'
-import axios from 'axios'
 import { classNames } from 'primereact/utils'
+import api from '../../api/axiosInstance'
+import { getToken } from '../../utils/auth'
 
 export default function AddProduct({ isOpen, setIsOpen }) {
   const types = [
@@ -24,6 +25,7 @@ export default function AddProduct({ isOpen, setIsOpen }) {
     formState: { errors },
   } = useForm()
 
+  const token = getToken()
   const toast = useRef(null)
   // const [selectedOwner, setSelectedOwner] = useState(null)
   // const [selectedCategory, setSelectedCategory] = useState(null)
@@ -35,8 +37,8 @@ export default function AddProduct({ isOpen, setIsOpen }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const ownerRes = await axios.get('http://localhost:8080/owner')
-        const categoryRes = await axios.get('http://localhost:8080/category')
+        const ownerRes = await api.get('/owner')
+        const categoryRes = await api.get('/category')
         setOwner(ownerRes.data)
         setCategory(categoryRes.data)
       } catch (error) {
@@ -67,9 +69,9 @@ export default function AddProduct({ isOpen, setIsOpen }) {
   const onSubmit = async (data) => {
     try {
       const type = selectedType ? selectedType.name : ''
-      const endpoint = `http://localhost:8080/${type}`
+      const endpoint = `/${type}`
       console.log(data)
-      await axios.post(endpoint, data)
+      await api.post(endpoint, data)
       showSuccess()
     } catch (error) {
       showError()
