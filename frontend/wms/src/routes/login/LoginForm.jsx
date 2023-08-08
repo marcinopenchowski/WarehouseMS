@@ -1,32 +1,78 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import api from '../../api/axiosInstance'
+import { Controller, useForm } from 'react-hook-form'
+import { InputText } from 'primereact/inputtext'
+import { Password } from 'primereact/password'
+import { Toast } from 'primereact/toast'
+import { Button } from 'primereact/button'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 export default function LoginForm() {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const toast = useRef(null)
   const [token, setToken] = useState(null)
 
-  async function handleLogin(event) {
-    event.preventDefault()
+  const validationSchema = yup.object().shape({
+    password: yup.string().required('Password is required'),
+    login: yup.string().required('Username is required'),
+  })
 
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+  })
+
+  const showError = () => {
+    toast.current.show({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'Something went wrong!',
+      life: 3000,
+    })
+  }
+
+  const onSubmit = async (data) => {
     try {
-      const credentials = {
-        login: username,
-        password: password,
-      }
-      const loginUrl = `/login`
-      const res = await api.post(loginUrl, credentials)
+      console.log(data)
+      const endpoint = `/login`
+      const res = await api.post(endpoint, data)
       const { token } = res.data
       setToken(token)
       localStorage.setItem('jwtToken', token)
       console.log(token)
     } catch (error) {
-      console.error('Error logging in:', error)
+      showError()
+    } finally {
+      reset()
     }
   }
 
+  // async function handleLogin(event) {
+  //   event.preventDefault()
+
+  //   try {
+  //     const credentials = {
+  //       login: username,
+  //       password: password,
+  //     }
+  //     const loginUrl = `/login`
+  //     const res = await api.post(loginUrl, credentials)
+  //     const { token } = res.data
+  //     setToken(token)
+  //     localStorage.setItem('jwtToken', token)
+  //     console.log(token)
+  //   } catch (error) {
+  //     console.error('Error logging in:', error)
+  //   }
+  // }
+
   return (
     <div className="w-full h-screen flex bg-gray-100">
+      <Toast ref={toast} />
       <div className="grid grid-cols-1 md:grid-cols-2 m-auto h-[550px] shadow-lg shadow-gray-500 sm:max-w-[800px]">
         <div className="w-full h-[550px] hidden md:block">
           <img
@@ -36,34 +82,68 @@ export default function LoginForm() {
           />
         </div>
         <div className="p-4 flex flex-col justify-around bg-white">
-          <form>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col gap-7 items-center">
             <h2 className="text-4xl font-bold text-center mb-8">WarehouseMS</h2>
             <div>
-              <input
-                className="border p-2 my-2 w-full"
-                type="text"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-              <input
-                className="border p-2 my-2 w-full"
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              <span className="p-float-label">
+                <Controller
+                  name="login"
+                  control={control}
+                  defaultValue=""
+                  render={({ field, fieldState }) => (
+                    <InputText
+                      id="login"
+                      value={field.value}
+                      onChange={(e) => field.onChange(e.target.value)}
+                      className={fieldState.invalid ? 'p-invalid' : ''}
+                    />
+                  )}
+                />
+                <label htmlFor="login">Username</label>
+              </span>
             </div>
-            <button
-              className="w-full py-2 my-4 bg-gray-300 hover:bg-gray-400"
-              onClick={handleLogin}>
-              Sign in
-            </button>
-            <p className="text-center">Forgot Username or Password?</p>
+            <div>
+              <span className="p-float-label">
+                <Controller
+                  name="password"
+                  control={control}
+                  render={({ field, fieldState }) => (
+                    <Password
+                      value={field.value}
+                      onChange={(e) => field.onChange(e.target.value)}
+                      className={fieldState.invalid ? 'p-invalid' : ''}
+                      feedback={false}
+                    />
+                  )}
+                />
+                <label htmlFor="login">Password</label>
+              </span>
+            </div>
+            <Button type="submit" label="Log In" icon="pi pi-check" />
           </form>
-          <a href="/register">
-            <p className="text-center">Sign Up</p>
-          </a>
+          <ul className="text-center">
+            {errors.login && (
+              <li className="error-message text-red-500">
+                {errors.login.message}
+              </li>
+            )}
+            {errors.password && (
+              <li className="error-message text-red-500">
+                {errors.password.message}
+              </li>
+            )}
+          </ul>
+          <p className="text-center">
+            Don't have an account?
+            <a
+              href="/register"
+              className="font-medium text-yellow-500 dark:text-yellow-500 hover:underline">
+              {' '}
+              Sign Up
+            </a>
+          </p>
         </div>
       </div>
     </div>
