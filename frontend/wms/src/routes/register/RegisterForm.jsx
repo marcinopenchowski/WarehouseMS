@@ -18,9 +18,9 @@ export default function RegisterForm() {
       .required('Password is required')
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-        'Password must contain at least one lowercase, one uppercase, one numeric, and be at least 8 characters long'
+        'Password must meet the requirements'
       ),
-    username: yup.string().required('Username is required'),
+    login: yup.string().required('Username is required'),
     confirmPassword: yup
       .string()
       .oneOf([yup.ref('password'), null], 'Passwords must match')
@@ -40,7 +40,7 @@ export default function RegisterForm() {
     toast.current.show({
       severity: 'success',
       summary: 'Form Submitted',
-      detail: 'The form data has been submitted successfully!',
+      detail: 'Account created successfuly!',
       life: 3000,
     })
   }
@@ -56,8 +56,8 @@ export default function RegisterForm() {
   const onSubmit = async (data) => {
     try {
       console.log(data)
-      const { username, password } = data
-      const requestData = { username, password }
+      const { login, password } = data
+      const requestData = { login, password }
       console.log(requestData)
       const endpoint = `/register`
       await api.post(endpoint, requestData)
@@ -95,30 +95,31 @@ export default function RegisterForm() {
           />
         </div>
         <div className="flex flex-col gap-7 items-center bg-white">
-          <h2 className="text-4xl font-bold text-center my-8">WarehouseMS</h2>
+          <h2 className="text-4xl font-bold text-center mt-8">WarehouseMS</h2>
+          <h2 className="text-xl text-center">Create an account</h2>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col gap-7 items-center">
-            <div className="mx-5">
+            className="flex flex-col gap-5 items-center">
+            <div className="mx-2">
               <span className="p-float-label">
                 <Controller
-                  name="username"
+                  name="login"
                   control={control}
                   defaultValue=""
                   render={({ field, fieldState }) => (
                     <InputText
-                      id="username"
+                      id="login"
                       value={field.value}
                       onChange={(e) => field.onChange(e.target.value)}
                       className={fieldState.invalid ? 'p-invalid' : ''}
                     />
                   )}
                 />
-                <label htmlFor="username">Username</label>
+                <label htmlFor="login">Username</label>
               </span>
             </div>
 
-            <div className="mx-5">
+            <div className="mx-2">
               <span className="p-float-label">
                 <Controller
                   name="password"
@@ -138,7 +139,7 @@ export default function RegisterForm() {
               </span>
             </div>
 
-            <div className="mx-5">
+            <div className="mx-2">
               <span className="p-float-label">
                 <Controller
                   name="confirmPassword"
@@ -160,11 +161,10 @@ export default function RegisterForm() {
                 <label htmlFor="password">Confirm password</label>
               </span>
             </div>
-
             <ul>
-              {errors.username && (
+              {errors.login && (
                 <li className="error-message text-red-500">
-                  {errors.username.message}
+                  {errors.login.message}
                 </li>
               )}
               {errors.password && (
@@ -178,8 +178,22 @@ export default function RegisterForm() {
                 </li>
               )}
             </ul>
-            <Button label="Submit" type="submit" icon="pi pi-check" />
+
+            <Button
+              className="mb-5"
+              label="Register"
+              type="submit"
+              icon="pi pi-check"
+            />
           </form>
+          <p>
+            Already have an account?{' '}
+            <a
+              href="/login"
+              className="font-medium text-yellow-500 dark:text-yellow-500 hover:underline">
+              Sign In!
+            </a>
+          </p>
         </div>
       </div>
     </div>
