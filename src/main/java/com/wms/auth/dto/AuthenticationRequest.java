@@ -1,20 +1,15 @@
-package com.wms.dto;
+package com.wms.auth.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class UserDto {
-
-    private Long id;
+public class AuthenticationRequest {
     private String login;
-    private List<String> authRoles;
-    private String token;
+    private String password;
 }

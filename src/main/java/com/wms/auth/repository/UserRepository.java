@@ -1,6 +1,6 @@
-package com.wms.repository;
+package com.wms.auth.repository;
 
-import com.wms.entity.User;
+import com.wms.auth.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
