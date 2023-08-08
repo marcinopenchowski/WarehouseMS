@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react'
-import api from '../../api/axiosInstance'
 import { Controller, useForm } from 'react-hook-form'
 import { InputText } from 'primereact/inputtext'
 import { Password } from 'primereact/password'
@@ -7,10 +6,11 @@ import { Toast } from 'primereact/toast'
 import { Button } from 'primereact/button'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import api from '../../api/axiosInstance'
 
-export default function LoginForm() {
+export default function LoginPage() {
   const toast = useRef(null)
-  const [token, setToken] = useState(null)
+  const [setToken] = useState(null)
 
   const validationSchema = yup.object().shape({
     password: yup.string().required('Password is required'),
@@ -26,7 +26,7 @@ export default function LoginForm() {
     resolver: yupResolver(validationSchema),
   })
 
-  const showError = () => {
+  const showErrorToast = () => {
     toast.current.show({
       severity: 'error',
       summary: 'Error',
@@ -38,37 +38,18 @@ export default function LoginForm() {
   const onSubmit = async (data) => {
     try {
       console.log(data)
-      const endpoint = `/login`
+      const endpoint = '/login'
       const res = await api.post(endpoint, data)
       const { token } = res.data
       setToken(token)
       localStorage.setItem('jwtToken', token)
       console.log(token)
     } catch (error) {
-      showError()
+      showErrorToast()
     } finally {
       reset()
     }
   }
-
-  // async function handleLogin(event) {
-  //   event.preventDefault()
-
-  //   try {
-  //     const credentials = {
-  //       login: username,
-  //       password: password,
-  //     }
-  //     const loginUrl = `/login`
-  //     const res = await api.post(loginUrl, credentials)
-  //     const { token } = res.data
-  //     setToken(token)
-  //     localStorage.setItem('jwtToken', token)
-  //     console.log(token)
-  //   } catch (error) {
-  //     console.error('Error logging in:', error)
-  //   }
-  // }
 
   return (
     <div className="w-full h-screen flex bg-gray-100">
@@ -118,7 +99,7 @@ export default function LoginForm() {
                     />
                   )}
                 />
-                <label htmlFor="login">Password</label>
+                <label htmlFor="password">Password</label>
               </span>
             </div>
             <Button type="submit" label="Log In" icon="pi pi-check" />

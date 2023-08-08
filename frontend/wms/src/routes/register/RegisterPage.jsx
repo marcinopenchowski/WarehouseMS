@@ -9,7 +9,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import api from '../../api/axiosInstance'
 
-export default function RegisterForm() {
+export default function RegisterPage() {
   const toast = useRef(null)
 
   const validationSchema = yup.object().shape({
