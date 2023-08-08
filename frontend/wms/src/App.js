@@ -1,14 +1,26 @@
+import React, { useState } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
-import { Home, ProductsList, Settings, Login, Profile, Register } from './routes'
-import { useState } from 'react'
+import {
+  Home,
+  ProductsList,
+  Settings,
+  Login,
+  Profile,
+  Register,
+} from './routes'
 import { ProductContext } from './contexts/ProductContext.jsx'
 
 function App() {
   const [products, setProducts] = useState([])
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isLoggedIn] = useState(false)
+
+  const productContextValue = {
+    products,
+    setProducts,
+  }
 
   return (
-    <ProductContext.Provider value={{ products, setProducts }}>
+    <ProductContext.Provider value={productContextValue}>
       <Routes>
         <Route path="/" element={<Home />} />
         {isLoggedIn ? (
