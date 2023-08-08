@@ -1,8 +1,8 @@
-package com.wms.auth.controller;
+package com.wms.authentication.controller;
 
-import com.wms.auth.dto.AuthenticationRequest;
-import com.wms.auth.dto.AuthenticationResponse;
-import com.wms.auth.service.AuthenticationService;
+import com.wms.authentication.dto.AuthenticationRequest;
+import com.wms.authentication.dto.AuthenticationResponse;
+import com.wms.authentication.service.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

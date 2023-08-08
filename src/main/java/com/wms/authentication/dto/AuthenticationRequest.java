@@ -1,4 +1,4 @@
-package com.wms.auth.dto;
+package com.wms.authentication.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

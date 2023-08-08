@@ -1,4 +1,4 @@
-package com.wms.auth.service;
+package com.wms.authentication.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

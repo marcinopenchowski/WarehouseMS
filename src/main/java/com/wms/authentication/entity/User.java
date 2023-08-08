@@ -1,4 +1,4 @@
-package com.wms.auth.entity;
+package com.wms.authentication.entity;
 
 import lombok.*;
 

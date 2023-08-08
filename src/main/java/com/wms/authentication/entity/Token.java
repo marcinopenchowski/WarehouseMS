@@ -1,6 +1,6 @@
-package com.wms.auth.entity;
+package com.wms.authentication.entity;
 
-import com.wms.auth.dto.TokenType;
+import com.wms.authentication.dto.TokenType;
 import jakarta.persistence.*;
 import lombok.*;
 

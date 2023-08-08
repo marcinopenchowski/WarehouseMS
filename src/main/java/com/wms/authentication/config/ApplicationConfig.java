@@ -1,6 +1,6 @@
-package com.wms.auth.config;
+package com.wms.authentication.config;
 
-import com.wms.auth.repository.UserRepository;
+import com.wms.authentication.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,7 +1,7 @@
-package com.wms.auth.config;
+package com.wms.authentication.config;
 
-import com.wms.auth.repository.TokenRepository;
-import com.wms.auth.service.JwtService;
+import com.wms.authentication.repository.TokenRepository;
+import com.wms.authentication.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,6 +1,6 @@
-package com.wms.auth.service;
+package com.wms.authentication.service;
 
-import com.wms.auth.repository.TokenRepository;
+import com.wms.authentication.repository.TokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

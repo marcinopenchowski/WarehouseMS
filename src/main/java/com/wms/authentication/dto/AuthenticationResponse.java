@@ -1,4 +1,4 @@
-package com.wms.auth.dto;
+package com.wms.authentication.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

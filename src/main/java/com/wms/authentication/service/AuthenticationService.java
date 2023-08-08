@@ -1,13 +1,13 @@
-package com.wms.auth.service;
+package com.wms.authentication.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wms.auth.dto.AuthenticationRequest;
-import com.wms.auth.dto.AuthenticationResponse;
-import com.wms.auth.dto.TokenType;
-import com.wms.auth.entity.Token;
-import com.wms.auth.entity.User;
-import com.wms.auth.repository.TokenRepository;
-import com.wms.auth.repository.UserRepository;
+import com.wms.authentication.dto.AuthenticationRequest;
+import com.wms.authentication.dto.AuthenticationResponse;
+import com.wms.authentication.dto.TokenType;
+import com.wms.authentication.entity.Token;
+import com.wms.authentication.entity.User;
+import com.wms.authentication.repository.TokenRepository;
+import com.wms.authentication.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
