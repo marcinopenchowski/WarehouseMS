@@ -11,6 +11,7 @@ import 'primereact/resources/themes/saga-orange/theme.css'
 import 'primereact/resources/primereact.min.css'
 import 'primeicons/primeicons.css'
 import AddProduct from '../../components/TableData/AddProduct'
+import api from '../../api/axiosInstance'
 
 export default function Dashboard() {
   const [filters, setFilters] = useState({
@@ -19,9 +20,9 @@ export default function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const { products, setProducts } = useContext(ProductContext)
-  const fetchAssetData = () => axios.get('http://localhost:8080/asset')
-  const fetchAccessoryData = () => axios.get('http://localhost:8080/accessory')
-  const fetchSoftwareData = () => axios.get('http://localhost:8080/software')
+  const fetchAssetData = () => api.get('/asset')
+  const fetchAccessoryData = () => api.get('/accessory')
+  const fetchSoftwareData = () => api.get('/software')
 
   useEffect(() => {
     axios
@@ -31,6 +32,7 @@ export default function Dashboard() {
           const assetDataWithType = assetRes.data.map((asset) => ({
             ...asset,
             type: 'asset',
+            ownerFullName: `${asset.owner.firstName} ${asset.owner.lastName}`,
           }))
           const accessoryDataWithType = accessoryRes.data.map((accessory) => ({
             ...accessory,
@@ -54,9 +56,9 @@ export default function Dashboard() {
 
   const deleteProduct = async (id, type) => {
     try {
-      const endpoint = `http://localhost:8080/${type}/${id}`
+      const endpoint = `/${type}/${id}`
 
-      await axios.delete(endpoint)
+      await api.delete(endpoint)
 
       const updatedProducts = products.filter((product) => product.id !== id)
       setProducts(updatedProducts)
@@ -67,7 +69,7 @@ export default function Dashboard() {
 
   const actionBodyTemplate = (rowData) => {
     return (
-      <div className="flex flex-row gap-4">
+      <div className="flex flex-row gap-4 justify-end ">
         <Button type="button" icon="pi pi-pencil" rounded />
         <Button
           type="button"
@@ -117,29 +119,11 @@ export default function Dashboard() {
             sortMode="multiple"
             value={products}
             style={{ minWidth: '50rem' }}>
-            <Column
-              field="name"
-              header="Product Name"
-              sortable
-              style={{ width: '25%' }}></Column>
-            <Column
-              field="price"
-              header="Price"
-              sortable
-              style={{ width: '25%' }}
-            />
-            <Column
-              field="description"
-              header="Description"
-              sortable
-              style={{ width: '25%' }}
-            />
-            <Column
-              field="category.name"
-              header="Category"
-              sortable
-              style={{ width: '25%' }}
-            />
+            <Column field="name" header="Product Name" sortable />
+            <Column field="price" header="Price" sortable />
+            <Column field="description" header="Description" sortable />
+            <Column field="category.name" header="Category" sortable />
+            <Column field="ownerFullName" header="Owner" sortable />
             <Column body={actionBodyTemplate} />
           </DataTable>
         </div>
