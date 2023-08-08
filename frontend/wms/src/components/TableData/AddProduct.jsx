@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect, useContext } from 'react'
 import { Button } from 'primereact/button'
 import { Dialog } from 'primereact/dialog'
 import { InputText } from 'primereact/inputtext'
@@ -9,6 +9,7 @@ import { useForm, Controller } from 'react-hook-form'
 import { classNames } from 'primereact/utils'
 import api from '../../api/axiosInstance'
 import { getToken } from '../../utils/auth'
+import { ProductContext } from '../../contexts/ProductContext'
 
 export default function AddProduct({ isOpen, setIsOpen }) {
   const types = [
@@ -16,6 +17,8 @@ export default function AddProduct({ isOpen, setIsOpen }) {
     { name: 'software', code: 'Software' },
     { name: 'accessory', code: 'Accessory' },
   ]
+
+  const { products, setProducts } = useContext(ProductContext)
 
   const {
     control,
@@ -71,7 +74,14 @@ export default function AddProduct({ isOpen, setIsOpen }) {
       const type = selectedType ? selectedType.name : ''
       const endpoint = `/${type}`
       console.log(data)
-      await api.post(endpoint, data)
+      const response = await api.post(endpoint, data)
+
+      // Assuming the API response includes the newly added product with all details
+      const newProduct = response.data
+
+      // Update the products state to include the new product
+      setProducts([...products, newProduct])
+
       showSuccess()
     } catch (error) {
       showError()
@@ -244,16 +254,16 @@ export default function AddProduct({ isOpen, setIsOpen }) {
         <div className="field w-1/2">
           <span className="p-float-label">
             <Controller
-              name="owner_id"
+              name="owner"
               control={control}
               rules={{ required: 'Product owner is required' }}
               render={({ field, fieldState }) => (
                 <Dropdown
-                  inputId="owner_id"
+                  inputId="owner"
                   {...field}
                   className={fieldState.invalid ? 'p-invalid w-full' : 'w-full'}
                   options={owner.map((option) => ({
-                    value: option.id,
+                    value: option,
                     label: `${option.firstName} ${option.lastName}`,
                   }))}
                   optionLabel="label"
@@ -261,7 +271,7 @@ export default function AddProduct({ isOpen, setIsOpen }) {
               )}
             />
             <label
-              htmlFor="owner_id"
+              htmlFor="owner"
               className={classNames({ 'p-error': errors.owner })}>
               Product Owner
             </label>
@@ -271,16 +281,16 @@ export default function AddProduct({ isOpen, setIsOpen }) {
         <div className="field w-1/2">
           <span className="p-float-label">
             <Controller
-              name="category_id"
+              name="category"
               control={control}
               rules={{ required: 'Product category is required' }}
               render={({ field, fieldState }) => (
                 <Dropdown
-                  inputId="category_id"
+                  inputId="category"
                   {...field}
                   className={fieldState.invalid ? 'p-invalid w-full' : 'w-full'}
                   options={category.map((option) => ({
-                    value: option.id,
+                    value: option,
                     label: `${option.name}`,
                   }))}
                   optionLabel="label"
@@ -288,7 +298,7 @@ export default function AddProduct({ isOpen, setIsOpen }) {
               )}
             />
             <label
-              htmlFor="category_id"
+              htmlFor="category"
               className={classNames({ 'p-error': errors.owner })}>
               Product category
             </label>

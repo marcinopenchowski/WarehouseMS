@@ -7,10 +7,11 @@ import { Button } from 'primereact/button'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import api from '../../api/axiosInstance'
+import { useNavigate } from 'react-router-dom'
 
 export default function LoginPage() {
   const toast = useRef(null)
-  const [setToken] = useState(null)
+  const [token, setToken] = useState(null)
 
   const validationSchema = yup.object().shape({
     password: yup.string().required('Password is required'),
@@ -34,17 +35,18 @@ export default function LoginPage() {
       life: 3000,
     })
   }
+  const navigate = useNavigate()
 
   const onSubmit = async (data) => {
     try {
-      console.log(data)
       const endpoint = '/login'
       const res = await api.post(endpoint, data)
-      const { token } = res.data
-      setToken(token)
-      localStorage.setItem('jwtToken', token)
-      console.log(token)
+      const { access_token } = res.data
+      setToken(access_token)
+      localStorage.setItem('jwtToken', access_token)
+      navigate('/')
     } catch (error) {
+      console.error('Login Error:', error)
       showErrorToast()
     } finally {
       reset()
