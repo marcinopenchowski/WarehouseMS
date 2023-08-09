@@ -20,11 +20,9 @@ public class License {
     @Column(name = "id")
     private Long id;
 
-    @Basic
     @Column(name = "expiration_date")
     private Date expirationDate;
 
-    @Basic
     @Column(name = "email")
     private String email;
 }

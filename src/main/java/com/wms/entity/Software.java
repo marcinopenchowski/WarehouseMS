@@ -14,7 +14,6 @@ import jakarta.persistence.*;
 @Table(name = "software")
 public class Software extends Item {
 
-    @Basic
     @Column(name = "license_id")
     private Long licenseId;
 }

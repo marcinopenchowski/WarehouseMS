@@ -19,7 +19,6 @@ public class OwnerGroup {
     @Column(name = "id")
     private Long id;
 
-    @Basic
     @Column(name = "name")
     private String name;
 }

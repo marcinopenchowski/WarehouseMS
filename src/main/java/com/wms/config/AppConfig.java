@@ -2,35 +2,21 @@ package com.wms.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import javax.sql.DataSource;
 
 @Configuration
 @ComponentScan(basePackages = "com.wms")
 @PropertySource("classpath:application.properties")
+@RequiredArgsConstructor
 public class AppConfig {
 
     private final Environment environment;
-
-    @Autowired
-    public AppConfig(Environment environment) {
-        this.environment = environment;
-    }
-
-    @Bean
-    public ResourceBundleMessageSource resourceBundleMessageSource(){
-        ResourceBundleMessageSource source = new ResourceBundleMessageSource();
-        source.setBasename("classpath:message.properties");
-        source.setUseCodeAsDefaultMessage(true);
-
-        return source;
-    }
 
     @Bean
     public DataSource dataSource() {
