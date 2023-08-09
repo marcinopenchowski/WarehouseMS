@@ -1,14 +1,15 @@
 import React, { useEffect, useContext } from 'react'
-import axios from 'axios'
 import { ProductContext } from '../../contexts/ProductContext'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
+import api from '../../api/axiosInstance'
+import axios from 'axios'
 
 export default function DashboardStock() {
   const { products, setProducts } = useContext(ProductContext)
-  const fetchAssetData = () => axios.get('http://localhost:8080/asset')
-  const fetchAccessoryData = () => axios.get('http://localhost:8080/accessory')
-  const fetchSoftwareData = () => axios.get('http://localhost:8080/software')
+  const fetchAssetData = () => api.get('/asset')
+  const fetchAccessoryData = () => api.get('/accessory')
+  const fetchSoftwareData = () => api.get('/software')
 
   useEffect(() => {
     axios
