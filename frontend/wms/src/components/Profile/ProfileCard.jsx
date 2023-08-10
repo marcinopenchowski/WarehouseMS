@@ -1,25 +1,49 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Card,
   CardHeader,
   CardBody,
   Typography,
 } from '@material-tailwind/react'
-import { TextField, Button, Snackbar, Alert } from '@mui/material'
+import { getToken } from '../../utils/auth'
+import jwtDecode from 'jwt-decode'
+import api from '../../api/axiosInstance'
+import { Controller, useForm } from 'react-hook-form'
+import { InputText } from 'primereact/inputtext'
+import { Password } from 'primereact/password'
+import { Button } from 'primereact/button'
 
 export default function ProfileCard() {
-  const [open, setOpen] = useState(false)
+  const [token] = useState(getToken())
+  const [username, setUsername] = useState('')
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
 
-  const handleClick = () => {
-    setOpen(true)
-  }
-
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return
+  useEffect(() => {
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token)
+        console.log(decodedToken)
+        if (decodedToken) {
+          setUsername(decodedToken.sub)
+        }
+      } catch (error) {
+        console.error('Error decoding token:', error)
+      }
     }
+  })
 
-    setOpen(false)
+  const onSubmit = async (data) => {
+    try {
+      const endpoint = '/updateUser'
+      const res = await api.post(endpoint, data)
+      console.log(res.data)
+    } catch (error) {
+      console.error('Error changing user details:', error)
+    }
   }
 
   return (
@@ -33,24 +57,49 @@ export default function ProfileCard() {
       </CardHeader>
       <CardBody className="flex flex-col text-center mt-5">
         <Typography variant="h5" color="blue-gray" className="mb-10">
-          Hello User!
+          Hello {username}!
         </Typography>
-        <div className="flex w-72 flex-col items-center  gap-6">
-          <TextField id="outlined-basic" label="Username" variant="outlined" />
-          <TextField id="outlined-basic" label="Email" variant="outlined" />
-          <TextField id="outlined-basic" label="Password" variant="outlined" />
-          <Button onClick={handleClick} color='warning' variant="outlined">
-            Save
-          </Button>
-          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-            <Alert
-              onClose={handleClose}
-              severity="success"
-              sx={{ width: '100%' }}>
-              Changes saved successfuly!
-            </Alert>
-          </Snackbar>
-        </div>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex w-72 flex-col items-center  gap-6">
+          <div>
+            <span className="p-float-label">
+              <Controller
+                name="newLogin"
+                control={control}
+                defaultValue=""
+                render={({ field, fieldState }) => (
+                  <InputText
+                    id="newLogin"
+                    value={field.value}
+                    onChange={(e) => field.onChange(e.target.value)}
+                    className={fieldState.invalid ? 'p-invalid' : ''}
+                  />
+                )}
+              />
+              <label htmlFor="newLogin">Username</label>
+            </span>
+          </div>
+          <div>
+            <span className="p-float-label">
+              <Controller
+                name="newPassword"
+                control={control}
+                defaultValue=""
+                render={({ field, fieldState }) => (
+                  <Password
+                    value={field.value}
+                    onChange={(e) => field.onChange(e.target.value)}
+                    className={fieldState.invalid ? 'p-invalid' : ''}
+                    feedback={false}
+                  />
+                )}
+              />
+              <label htmlFor="newPassword">Password</label>
+            </span>
+          </div>
+          <Button type="submit" label="Save" icon="pi pi-check" />
+        </form>
       </CardBody>
     </Card>
   )
