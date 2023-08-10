@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   Card,
   CardHeader,
@@ -12,8 +13,10 @@ import { Controller, useForm } from 'react-hook-form'
 import { InputText } from 'primereact/inputtext'
 import { Password } from 'primereact/password'
 import { Button } from 'primereact/button'
+import { Toast } from 'primereact/toast'
 
 export default function ProfileCard() {
+  const toast = useRef(null)
   const [token] = useState(getToken())
   const [username, setUsername] = useState('')
   const {
@@ -21,6 +24,7 @@ export default function ProfileCard() {
     handleSubmit,
     formState: { errors },
   } = useForm()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (token) {
@@ -36,13 +40,40 @@ export default function ProfileCard() {
     }
   })
 
+  const showSuccess = () => {
+    toast.current.show({
+      severity: 'success',
+      summary: 'Success!',
+      detail: 'Account details changed successfuly!',
+      life: 2000,
+    })
+  }
+
+  const showError = () => {
+    toast.current.show({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'Something went wrong!',
+      life: 2000,
+    })
+  }
+
   const onSubmit = async (data) => {
     try {
-      const endpoint = '/updateUser'
-      const res = await api.post(endpoint, data)
-      console.log(res.data)
+      const updateEndpoint = '/updateUser'
+      await api.post(updateEndpoint, data)
+      const logoutRes = await api.post('/logout')
+      if (logoutRes.status === 200) {
+        localStorage.removeItem('jwtToken')
+        showSuccess()
+        setTimeout(() => {
+          navigate('/login')
+        }, 2000)
+      } else {
+        showError()
+      }
     } catch (error) {
-      console.error('Error changing user details:', error)
+      showError()
     }
   }
 
@@ -56,9 +87,13 @@ export default function ProfileCard() {
         />
       </CardHeader>
       <CardBody className="flex flex-col text-center mt-5">
-        <Typography variant="h5" color="blue-gray" className="mb-10">
+        <Typography variant="h5" color="blue-gray" className="mb-2">
           Hello {username}!
         </Typography>
+        <Typography variant="h6" className="mb-10">
+          Change your account details!
+        </Typography>
+        <Toast ref={toast} />
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex w-72 flex-col items-center  gap-6">
