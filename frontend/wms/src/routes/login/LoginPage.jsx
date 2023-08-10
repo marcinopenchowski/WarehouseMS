@@ -7,7 +7,7 @@ import { Button } from 'primereact/button'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import api from '../../api/axiosInstance'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 export default function LoginPage() {
   const toast = useRef(null)
@@ -120,12 +120,12 @@ export default function LoginPage() {
           </ul>
           <p className="text-center">
             Don't have an account?
-            <a
-              href="/register"
+            <Link
+              to="/register"
               className="font-medium text-yellow-500 dark:text-yellow-500 hover:underline">
-              {' '}
+                {' '}
               Sign Up
-            </a>
+            </Link>
           </p>
         </div>
       </div>
