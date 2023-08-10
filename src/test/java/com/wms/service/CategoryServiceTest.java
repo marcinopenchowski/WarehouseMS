@@ -25,7 +25,6 @@ class CategoryServiceTest {
     @Mock
     private CategoryMapper entityMapper;
 
-    @InjectMocks
     private CategoryService categoryService;
 
     @BeforeEach
@@ -40,7 +39,6 @@ class CategoryServiceTest {
                 .name("Notebook")
                 .build();
 
-        entityMapper = mock(CategoryMapper.class);
         categoryService = new CategoryService(categoryRepo, entityMapper);
         when(categoryRepo.findAll()).thenReturn(List.of(category1, category2));
         when(categoryRepo.findById(1L)).thenReturn(Optional.of(category1));

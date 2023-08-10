@@ -26,7 +26,6 @@ class AccessoryServiceTest {
     @Mock
     private AccessoryMapper entityMapper;
 
-    @InjectMocks
     private AccessoryService accessoryService;
 
     @BeforeEach
@@ -48,7 +47,6 @@ class AccessoryServiceTest {
                                 .build()
                 )
                 .description("Słuchawki bezprzewodowe SteelSeries")
-                .purchaseValue(300.00)
                 .purchaseDate(LocalDate.of(2019, 5, 3))
                 .build();
         Accessory accessory2 = Accessory.builder()
@@ -68,11 +66,9 @@ class AccessoryServiceTest {
                                 .build()
                 )
                 .description("Myszka bezprzewodowa SteelSeries")
-                .purchaseValue(450.00)
                 .purchaseDate(LocalDate.of(2020, 8, 10))
                 .build();
 
-        entityMapper = mock(AccessoryMapper.class);
         accessoryService = new AccessoryService(accessoryRepo, entityMapper);
         when(accessoryRepo.findAll()).thenReturn(List.of(accessory1, accessory2));
         when(accessoryRepo.findById(1L)).thenReturn(Optional.of(accessory1));

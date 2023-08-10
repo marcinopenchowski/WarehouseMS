@@ -26,7 +26,6 @@ class LicenseServiceTest {
     @Mock
     private LicenseMapper entityMapper;
 
-    @InjectMocks
     private LicenseService licenseService;
 
     @BeforeEach
@@ -43,7 +42,6 @@ class LicenseServiceTest {
                 .email("andrzej.nowak@gmail.com")
                 .build();
 
-        entityMapper = mock(LicenseMapper.class);
         licenseService = new LicenseService(licenseRepo, entityMapper);
         when(licenseRepo.findAll()).thenReturn(List.of(license1, license2));
         when(licenseRepo.findById(1L)).thenReturn(Optional.of(license1));

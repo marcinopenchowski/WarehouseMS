@@ -25,7 +25,6 @@ class OwnerGroupServiceTest {
     @Mock
     private OwnerGroupMapper entityMapper;
 
-    @InjectMocks
     private OwnerGroupService ownerGroupService;
 
     @BeforeEach
@@ -40,7 +39,6 @@ class OwnerGroupServiceTest {
                 .name("secondOwnerGroup")
                 .build();
 
-        entityMapper = mock(OwnerGroupMapper.class);
         ownerGroupService = new OwnerGroupService(ownerGroupRepo, entityMapper);
         when(ownerGroupRepo.findAll()).thenReturn(List.of(ownerGroup1, ownerGroup2));
         when(ownerGroupRepo.findById(1L)).thenReturn(Optional.of(ownerGroup1));

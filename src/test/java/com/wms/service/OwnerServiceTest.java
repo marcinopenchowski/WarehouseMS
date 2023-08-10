@@ -26,7 +26,6 @@ class OwnerServiceTest {
     @Mock
     private OwnerMapper entityMapper;
 
-    @InjectMocks
     private OwnerService ownerService;
 
     @BeforeEach
@@ -43,7 +42,6 @@ class OwnerServiceTest {
                 .lastName("Nowak")
                 .build();
 
-        entityMapper = mock(OwnerMapper.class);
         ownerService = new OwnerService(ownerRepo, entityMapper);
         when(ownerRepo.findAll()).thenReturn(List.of(owner1, owner2));
         when(ownerRepo.findById(1L)).thenReturn(Optional.of(owner1));

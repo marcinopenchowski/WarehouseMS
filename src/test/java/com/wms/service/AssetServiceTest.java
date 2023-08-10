@@ -24,7 +24,6 @@ class AssetServiceTest {
     @Mock
     private AssetMapper entityMapper;
 
-    @InjectMocks
     private AssetService assetService;
 
     @BeforeEach
@@ -32,7 +31,6 @@ class AssetServiceTest {
         Asset asset1 = Asset.builder().id(1L).name("name1").build();
         Asset asset2 = Asset.builder().id(2L).name("name2").build();
 
-        entityMapper = mock(AssetMapper.class);
         assetService = new AssetService(assetRepo, entityMapper);
         when(assetRepo.findAll()).thenReturn(List.of(asset1, asset2));
         when(assetRepo.findById(1L)).thenReturn(Optional.of(asset1));

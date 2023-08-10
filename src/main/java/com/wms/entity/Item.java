@@ -36,9 +36,6 @@ public abstract class Item {
     @Column(name = "purchase_date")
     private LocalDate purchaseDate;
 
-    @Column(name = "purchase_value")
-    private Double purchaseValue;
-
     @ManyToOne
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
     @ToString.Exclude

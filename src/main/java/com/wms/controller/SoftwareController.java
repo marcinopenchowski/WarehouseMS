@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("software")
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class SoftwareController {
 
     private final SoftwareService softwareService;

@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("license")
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class LicenseController {
 
     private final LicenseService licenseService;

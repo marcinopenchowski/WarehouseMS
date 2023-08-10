@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("asset")
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class AssetController {
     private final AssetService assetService;
     

@@ -14,7 +14,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;

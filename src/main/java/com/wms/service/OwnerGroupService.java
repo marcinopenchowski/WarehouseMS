@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class OwnerGroupService implements EntityService<OwnerGroup> {
 
     private final OwnerGroupRepo ownerGroupRepo;

@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("category")
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class CategoryController {
 
     private final CategoryService categoryService;

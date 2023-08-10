@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("accessory")
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class AccessoryController {
 
     private final AccessoryService accessoryService;
@@ -30,7 +30,7 @@ public class AccessoryController {
         return accessoryService.update(accessory, id);
     }
 
-    @PostMapping()
+    @PostMapping
     Accessory save(@RequestBody Accessory accessory) {
         return accessoryService.save(accessory);
     }

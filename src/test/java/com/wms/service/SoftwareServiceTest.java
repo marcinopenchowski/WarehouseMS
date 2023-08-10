@@ -25,7 +25,6 @@ class SoftwareServiceTest {
     @Mock
     private SoftwareMapper entityMapper;
 
-    @InjectMocks
     private SoftwareService softwareService;
 
     @BeforeEach
@@ -40,7 +39,6 @@ class SoftwareServiceTest {
                 .licenseId(2L)
                 .build();
 
-        entityMapper = mock(SoftwareMapper.class);
         softwareService = new SoftwareService(softwareRepo, entityMapper);
         when(softwareRepo.findAll()).thenReturn(List.of(software1, software2));
         when(softwareRepo.findById(1L)).thenReturn(Optional.of(software1));

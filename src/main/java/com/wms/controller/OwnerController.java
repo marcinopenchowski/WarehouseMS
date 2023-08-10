@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("owner")
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class OwnerController {
 
     private final OwnerService ownerService;
