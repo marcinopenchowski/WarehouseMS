@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { IoBagHandle } from 'react-icons/io5'
+import {
+  IoBagHandle,
+  IoPeople,
+  IoPricetagsSharp,
+  IoBarChart,
+} from 'react-icons/io5'
 import api from '../../api/axiosInstance'
 import { getToken } from '../../utils/auth'
 
@@ -31,7 +36,7 @@ export default function DashboardStatsGrid() {
     <div className="flex gap-4 w-full m-4">
       <BoxWrapper>
         <div className="rounded-full h-12 w-12 flex items-center justify-center bg-sky-500 mr-2">
-          <IoBagHandle className="text-2xl text-white" />
+          <IoBarChart className="text-2xl text-white" />
         </div>
         <div>
           <span className="text-sm text-gray-500 font-light">
@@ -61,7 +66,7 @@ export default function DashboardStatsGrid() {
       </BoxWrapper>
       <BoxWrapper>
         <div className="rounded-full h-12 w-12 flex items-center justify-center bg-yellow-500 mr-2">
-          <IoBagHandle className="text-2xl text-white" />
+          <IoPeople className="text-2xl text-white" />
         </div>
         <div>
           <span className="text-sm text-gray-500 font-light">Total Users</span>
@@ -74,7 +79,7 @@ export default function DashboardStatsGrid() {
       </BoxWrapper>
       <BoxWrapper>
         <div className="rounded-full h-12 w-12 flex items-center justify-center bg-green-600 mr-2">
-          <IoBagHandle className="text-2xl text-white" />
+          <IoPricetagsSharp className="text-2xl text-white" />
         </div>
         <div>
           <span className="text-sm text-gray-500 font-light">
