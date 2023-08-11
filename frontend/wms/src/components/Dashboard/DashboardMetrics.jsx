@@ -1,7 +1,32 @@
-import React from "react";
-import { IoBagHandle } from "react-icons/io5";
+import React, { useEffect, useState } from 'react'
+import { IoBagHandle } from 'react-icons/io5'
+import api from '../../api/axiosInstance'
+import { getToken } from '../../utils/auth'
 
 export default function DashboardStatsGrid() {
+  const [totalExpenses, setTotalPrice] = useState('')
+  const [totalUsers, setTotalUsers] = useState('')
+  const [avgExpenses, setAvgExpenses] = useState('')
+  const [totalProducts, setTotalProducts] = useState('')
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        console.log(getToken())
+        const totalPriceRes = await api.get('/item/totalPrice')
+        const totalProductsRes = await api.get('/item/totalCount')
+        const avgExpensesRes = await api.get('/item/totalAverage')
+        const totalUsersRes = await api.get('/owner/totalCount')
+        setTotalPrice(totalPriceRes.data)
+        setTotalUsers(totalUsersRes.data)
+        setAvgExpenses(avgExpensesRes.data)
+        setTotalProducts(totalProductsRes.data)
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
+    }
+    fetchData()
+  }, [])
   return (
     <div className="flex gap-4 w-full m-4">
       <BoxWrapper>
@@ -9,12 +34,13 @@ export default function DashboardStatsGrid() {
           <IoBagHandle className="text-2xl text-white" />
         </div>
         <div>
-          <span className="text-sm text-gray-500 font-light">Total Sales</span>
+          <span className="text-sm text-gray-500 font-light">
+            Average Expenses
+          </span>
           <div className="flex items-center">
             <strong className="text-xl text-gray-700 font-semibold">
-              $34525.60
+              {avgExpenses}
             </strong>
-            <span className="text-sm text-green-500 pl-2">+$1337</span>
           </div>
         </div>
       </BoxWrapper>
@@ -23,12 +49,13 @@ export default function DashboardStatsGrid() {
           <IoBagHandle className="text-2xl text-white" />
         </div>
         <div>
-          <span className="text-sm text-gray-500 font-light">Total Expenses</span>
+          <span className="text-sm text-gray-500 font-light">
+            Total Expenses
+          </span>
           <div className="flex items-center">
             <strong className="text-xl text-gray-700 font-semibold">
-              $20025.60
+              {totalExpenses}
             </strong>
-            <span className="text-sm text-green-500 pl-2">+$234</span>
           </div>
         </div>
       </BoxWrapper>
@@ -37,12 +64,11 @@ export default function DashboardStatsGrid() {
           <IoBagHandle className="text-2xl text-white" />
         </div>
         <div>
-          <span className="text-sm text-gray-500 font-light">Total Customers</span>
+          <span className="text-sm text-gray-500 font-light">Total Users</span>
           <div className="flex items-center">
             <strong className="text-xl text-gray-700 font-semibold">
-              153
+              {totalUsers}
             </strong>
-            <span className="text-sm text-green-500 pl-2">+11</span>
           </div>
         </div>
       </BoxWrapper>
@@ -51,17 +77,18 @@ export default function DashboardStatsGrid() {
           <IoBagHandle className="text-2xl text-white" />
         </div>
         <div>
-          <span className="text-sm text-gray-500 font-light">Total Orders</span>
+          <span className="text-sm text-gray-500 font-light">
+            Total Products
+          </span>
           <div className="flex items-center">
             <strong className="text-xl text-gray-700 font-semibold">
-              1337
+              {totalProducts}
             </strong>
-            <span className="text-sm text-red-500 pl-2">-13</span>
           </div>
         </div>
       </BoxWrapper>
     </div>
-  );
+  )
 }
 
 function BoxWrapper({ children }) {
@@ -69,5 +96,5 @@ function BoxWrapper({ children }) {
     <div className="bg-white rounded-sm p-4 flex-1 border border-gray-200 flex items-center">
       {children}
     </div>
-  );
+  )
 }
