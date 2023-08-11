@@ -6,6 +6,8 @@ import com.wms.repository.SoftwareRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class ItemService {
@@ -15,9 +17,9 @@ public class ItemService {
     private final SoftwareRepo softwareRepo;
 
     public Double getTotalPrice() {
-        return assetRepo.getTotalPrice()
-                + accessoryRepo.getTotalPrice()
-                + softwareRepo.getTotalPrice();
+        return Optional.ofNullable(assetRepo.getTotalPrice()).orElse(0.0)
+                + Optional.ofNullable(accessoryRepo.getTotalPrice()).orElse(0.0)
+                + Optional.ofNullable(softwareRepo.getTotalPrice()).orElse(0.0);
     }
 
     public Integer getTotalCount() {
