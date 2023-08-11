@@ -4,7 +4,6 @@ import com.wms.entity.Owner;
 import com.wms.mapper.OwnerMapper;
 import com.wms.repository.OwnerRepo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,5 +42,9 @@ public class OwnerService implements EntityService<Owner> {
     @Override
     public void deleteById(Long id) {
         ownerRepo.deleteById(id);
+    }
+
+    public Integer getTotalCount() {
+        return ownerRepo.getTotalCount();
     }
 }

@@ -3,7 +3,6 @@ package com.wms.controller;
 import com.wms.entity.Owner;
 import com.wms.service.OwnerService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,5 +37,10 @@ public class OwnerController {
     @DeleteMapping("/{id}")
     void deleteById(@PathVariable Long id) {
         ownerService.deleteById(id);
+    }
+
+    @GetMapping("/totalCount")
+    Integer getTotalCount() {
+        return ownerService.getTotalCount();
     }
 }
