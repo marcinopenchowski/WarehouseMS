@@ -76,10 +76,8 @@ export default function AddProduct({ isOpen, setIsOpen }) {
       console.log(data)
       const response = await api.post(endpoint, data)
 
-      // Assuming the API response includes the newly added product with all details
       const newProduct = response.data
 
-      // Update the products state to include the new product
       setProducts([...products, newProduct])
 
       showSuccess()

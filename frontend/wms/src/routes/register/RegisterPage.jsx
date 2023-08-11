@@ -8,6 +8,7 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import api from '../../api/axiosInstance'
+import { Link } from 'react-router-dom'
 
 export default function RegisterPage() {
   const toast = useRef(null)
@@ -188,11 +189,11 @@ export default function RegisterPage() {
           </form>
           <p>
             Already have an account?{' '}
-            <a
-              href="/login"
+            <Link
+              to="/login"
               className="font-medium text-yellow-500 dark:text-yellow-500 hover:underline">
               Sign In!
-            </a>
+            </Link>
           </p>
         </div>
       </div>
