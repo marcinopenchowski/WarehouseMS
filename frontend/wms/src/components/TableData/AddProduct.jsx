@@ -209,35 +209,6 @@ export default function AddProduct({ isOpen, setIsOpen }) {
           {getFormErrorMessage('description')}
         </div>
         <div className="field w-1/2">
-          <span className="p-float-label">
-            <Controller
-              name="purchase_value"
-              control={control}
-              rules={{
-                required: 'Purchase value cannot be empty',
-                pattern: {
-                  value: /^[0-9]*$/,
-                  message: 'Please enter only numbers',
-                },
-              }}
-              render={({ field, fieldState }) => (
-                <InputText
-                  id={field.purchase_value}
-                  {...field}
-                  className={fieldState.invalid ? 'p-invalid w-full' : 'w-full'}
-                  type="text"
-                />
-              )}
-            />
-            <label
-              htmlFor="purchase_value"
-              className={classNames({ 'p-error': errors.purchase_value })}>
-              Purchase value
-            </label>
-          </span>
-          {getFormErrorMessage('purchase_value')}
-        </div>
-        <div className="field w-1/2">
           <Calendar
             value={date}
             id="purchase_date"
